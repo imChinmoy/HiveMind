@@ -37,6 +37,11 @@ dependencies:
   go_router: ^9.0.3
   lottie: ^2.4.0
   intl: ^0.18.1
+  http: ^1.1.2
+  flutter_riverpod: ^2.3.6
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  toastification: ^3.0.3
 
 dev_dependencies:
   flutter_test:

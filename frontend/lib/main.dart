@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/config/routes/app_router.dart';
 import 'package:frontend/config/themes/app_theme.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const HiveMindApp());
+  runApp(ProviderScope(child: const HiveMindApp()));
 }
 
 class HiveMindApp extends StatelessWidget {

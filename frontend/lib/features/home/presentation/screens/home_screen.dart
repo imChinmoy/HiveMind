@@ -11,7 +11,7 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
+      child: Text('Home Screen'),
     );
   }
 }

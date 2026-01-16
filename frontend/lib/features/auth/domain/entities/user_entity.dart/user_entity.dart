@@ -2,7 +2,7 @@ class UserEntity {
   final String id;
   final String email;
   final String username;
-  final DateTime age;
+  final int age;
 
   UserEntity({
     required this.id,

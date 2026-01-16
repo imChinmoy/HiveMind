@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/config/core/toast.dart';
 import 'package:frontend/config/routes/app_router.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 import 'package:frontend/features/auth/presentation/widgets/button.dart';
 import 'package:frontend/features/auth/presentation/widgets/social_button.dart';
 import 'package:frontend/features/auth/presentation/widgets/custom_textfield.dart';
+import 'package:frontend/features/auth/presentation/state/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  ConsumerState<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
@@ -23,13 +26,10 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController dobController = TextEditingController();
 
   DateTime? selectedDob;
-  bool isLoading = false;
-
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) return 'Email cannot be empty';
-    final emailRegex =
-        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) return 'Enter a valid email';
     return null;
   }
@@ -58,33 +58,23 @@ class _SignupScreenState extends State<SignupScreen> {
     return null;
   }
 
-
-  void signup() {
+  Future<void> signup() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      isLoading = true;
-    });
+    final notifier = ref.read(authNotifierProvider.notifier);
 
-    _validateDob(dobController.text);
-    _validateEmail(emailController.text);
-    _validateUsername(usernameController.text);
-    _validatePassword(passwordController.text);
-    context.go('/home');
+    await notifier.signUp(
+      username: usernameController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+      age: selectedDob == null ? 0 : DateTime.now().year - selectedDob!.year,
+    );
 
-    setState(() {
-      isLoading = false;
-    });
+    
   }
 
-  void loginWithGoogle() {
-
-  }
-
-  void loginWithGithub() {
-
-  }
-
+  void loginWithGoogle() {}
+  void loginWithGithub() {}
 
   Future<void> _pickDate() async {
     final now = DateTime.now();
@@ -117,8 +107,27 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    dobController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final authState = ref.watch(authNotifierProvider);
+
+    final state = ref.read(authNotifierProvider);
+
+    if (state.error != null) {
+      ToastHelper.showError(context, state.error!);
+    } else if (state.user != null) {
+      ToastHelper.showSuccess(context, 'Signup successful!');
+      context.go('/home');
+    }
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -168,12 +177,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   hint: 'Email',
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
+                  validator: _validateEmail,
                 ),
                 const SizedBox(height: 16),
 
                 CustomTextField(
                   hint: 'Username',
                   controller: usernameController,
+                  validator: _validateUsername,
                 ),
                 const SizedBox(height: 16),
 
@@ -181,6 +192,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   hint: 'Password',
                   controller: passwordController,
                   obscureText: true,
+                  validator: _validatePassword,
                 ),
                 const SizedBox(height: 16),
 
@@ -190,25 +202,26 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: CustomTextField(
                       hint: 'Date of Birth',
                       controller: dobController,
+                      validator: _validateDob,
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
 
-
                 PrimaryButton(
                   text: 'Sign Up',
-                  isLoading: isLoading,
+                  isLoading: authState.isLoading,
                   onPressed: signup,
                 ),
                 const SizedBox(height: 16),
 
-
                 Row(
                   children: [
                     Expanded(
-                        child: Divider(
-                            color: AppColors.textMuted.withOpacity(0.5))),
+                      child: Divider(
+                        color: AppColors.textMuted.withOpacity(0.5),
+                      ),
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
@@ -217,8 +230,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     Expanded(
-                        child: Divider(
-                            color: AppColors.textMuted.withOpacity(0.5))),
+                      child: Divider(
+                        color: AppColors.textMuted.withOpacity(0.5),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -244,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       style: TextStyle(color: AppColors.textMuted),
                     ),
                     GestureDetector(
-                      onTap: () => context.go('/login'),
+                      onTap: () => context.push('/login'),
                       child: const Text(
                         'Login',
                         style: TextStyle(
