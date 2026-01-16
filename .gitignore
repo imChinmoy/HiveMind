@@ -1,0 +1,84 @@
+####################################
+# 🔐 SECRETS & ENV FILES
+####################################
+.env
+.env.*
+*.env
+
+# Firebase config (FlutterFire)
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_options.dart
+
+# Firebase local files
+.firebase/
+firebase-debug.log
+.firebaserc
+
+####################################
+# 🧠 BACKEND (Node.js + Socket.IO)
+####################################
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/.env.*
+
+####################################
+# 🐦 FLUTTER (GLOBAL)
+####################################
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Flutter versioning
+.metadata
+
+####################################
+# 📱 FLUTTER PLATFORM-SPECIFIC
+####################################
+
+# Android
+**/android/.gradle/
+**/android/local.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+
+# iOS / macOS
+**/ios/Flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+
+# Linux / Windows
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+
+####################################
+# 🌐 FLUTTER WEB
+####################################
+**/web/.dart_tool/
+**/web/build/
+
+####################################
+# 🧪 IDE / EDITOR JUNK
+####################################
+.idea/
+.vscode/
+*.iml
+*.log
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+####################################
+# 🧾 LOCK FILES (OPTIONAL)
+####################################
+# If this is a library → ignore
+# If this is an app → you may keep pubspec.lock
+# pubspec.lock
