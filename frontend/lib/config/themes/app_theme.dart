@@ -3,6 +3,7 @@ import 'app_colors.dart';
 
 class AppTheme {
   static ThemeData darkTheme = ThemeData(
+    fontFamily: 'Figtree',
     useMaterial3: true,
     brightness: Brightness.dark,
 

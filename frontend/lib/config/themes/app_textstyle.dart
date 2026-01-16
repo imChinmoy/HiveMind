@@ -6,6 +6,7 @@ class AppTextStyles {
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
+    fontFamily: 'Hunters K-Pop',
   );
 
   static const TextStyle channelTitle = TextStyle(

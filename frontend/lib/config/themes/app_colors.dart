@@ -30,4 +30,7 @@ class AppColors {
   // Message bubbles
   static const Color messageSelf = Color(0xFF313338);
   static const Color messageOther = Color(0xFF2B2D31);
+
+  //Cards
+  static const Color cardBackground = Color(0xFF202225);
 }
