@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Core
-  static const Color background = Color(0xFF1E1F22);
+  static const Color background = Color.fromARGB(0, 0, 0, 0);
   static const Color surface = Color(0xFF2B2D31);
   static const Color surfaceDark = Color(0xFF232428);
 
@@ -14,6 +14,7 @@ class AppColors {
   static const Color textPrimary = Color(0xFFF2F3F5);
   static const Color textSecondary = Color(0xFFB5BAC1);
   static const Color textMuted = Color(0xFF949BA4);
+  static const Color textPrimaryMuted = Color.fromARGB(255, 70, 73, 104);
 
   // UI Elements
   static const Color divider = Color(0xFF3F4147);

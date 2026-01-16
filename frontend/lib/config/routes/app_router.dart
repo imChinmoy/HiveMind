@@ -17,13 +17,10 @@ class AppRouter {
       final loggingIn =
           state.location == '/login' || state.location == '/signup';
 
-      if (!loggedIn && !loggingIn) {
-        return '/login';
-      }
+      if (state.location == '/') return null;
 
-      if (loggedIn && loggingIn) {
-        return '/home';
-      }
+      if (!loggedIn && !loggingIn) return '/login';
+      if (loggedIn && loggingIn) return '/home';
 
       return null;
     },
@@ -31,31 +28,15 @@ class AppRouter {
     routes: [
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
-
       GoRoute(
         path: '/signup',
         builder: (context, state) => const SignupScreen(),
       ),
-
       GoRoute(path: '/home', builder: (context, state) => const HomeShell()),
-
-      // GoRoute(
-      //   path: '/chat/:serverId/:channelId',
-      //   builder: (context, state) {
-      //     final serverId = state.pathParameters['serverId']!;
-      //     final channelId = state.pathParameters['channelId']!;
-
-      //     return ChatScreen(
-      //       serverId: serverId,
-      //       channelId: channelId,
-      //     );
-      //   },
-      // ),
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfileScreen(),
       ),
-
       GoRoute(
         path: '/logout',
         redirect: (context, state) {
