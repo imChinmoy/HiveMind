@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/config/core/toast.dart';
 import 'package:frontend/config/themes/app_colors.dart';
+import 'package:frontend/features/auth/domain/entities/auth_state.dart';
 import 'package:frontend/features/auth/presentation/state/provider.dart';
 import 'package:frontend/features/auth/presentation/widgets/button.dart';
 import 'package:frontend/features/auth/presentation/widgets/social_button.dart';
@@ -20,8 +21,35 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  late final ProviderSubscription<AuthState> _authSub;
+
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _authSub = ref.listenManual<AuthState>(
+    authNotifierProvider,
+    (previous, next) {
+      if (!mounted) return;
+
+      if (next.user != null && previous?.user == null) {
+        ToastHelper.showSuccess(context, 'Login Successful!');
+        GoRouter.of(context).go('/home');
+        
+      }
+
+      if (next.error != null && next.error != previous?.error) {
+        ToastHelper.showError(context, next.error!);
+      }
+    },
+  );
+
+  }
+
   @override
   void dispose() {
+    _authSub.close();
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -53,7 +81,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       password: passwordController.text.trim(),
     );
 
-   
+    usernameController.clear();
+    passwordController.clear();
+  
   }
 
   void _loginWithGoogle() {}
@@ -62,17 +92,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final size = MediaQuery.of(context).size;
     final authState = ref.watch(authNotifierProvider);
-
-     final state = ref.read(authNotifierProvider);
-
-    if (state.user != null) {
-      ToastHelper.showSuccess(context, 'Login Successful!');
-      Navigator.of(context).pushReplacementNamed('/home');
-    } else if (state.error != null) {
-      ToastHelper.showError(context, state.error!);
-    }
 
     return Scaffold(
       backgroundColor: AppColors.background,

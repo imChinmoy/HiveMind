@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/features/auth/presentation/state/provider.dart';
 import 'package:go_router/go_router.dart';
-import '../config/routes/app_router.dart';
 import '../config/themes/app_colors.dart';
 import 'package:lottie/lottie.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
@@ -40,9 +41,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     if (!mounted) return;
 
-    if (AppRouter.isLoggedIn) {
+    final authState = ref.read(authNotifierProvider);
+    if (authState.user != null){
       context.go('/home');
-    } else {
+    }
+    else{
       context.go('/login');
     }
   }
@@ -68,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
               const Spacer(),
 
               SizedBox(
-                width: size.width ,
+                width: size.width,
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: Lottie.asset(
@@ -96,7 +99,10 @@ class _SplashScreenState extends State<SplashScreen>
                           letterSpacing: 3,
                         ),
                         children: [
-                          TextSpan(text: 'Mind', style: TextStyle(color: AppColors.textPrimaryMuted)),
+                          TextSpan(
+                            text: 'Mind',
+                            style: TextStyle(color: AppColors.textPrimaryMuted),
+                          ),
                         ],
                       ),
                     ),

@@ -1,12 +1,12 @@
 import 'package:frontend/config/network/either.dart';
-import 'package:frontend/features/auth/data/api/datasource.dart';
+import 'package:frontend/features/auth/data/api/remote_datasource.dart';
 import 'package:frontend/features/auth/data/models/user_model.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final RemoteDataSource remoteDataSource;
   AuthRepoImpl({required this.remoteDataSource});
-  
+
   @override
   Future<Either<String, UserModel>> login({
     required String username,
@@ -17,7 +17,7 @@ class AuthRepoImpl implements AuthRepo {
       password: password,
     );
     return result.fold((left) => Left(left), (right) {
-      final userModel = UserModel.fromMap(right['data']);
+      final userModel = UserModel.fromJson(right);
       return Right(userModel);
     });
   }
@@ -28,20 +28,18 @@ class AuthRepoImpl implements AuthRepo {
     required String email,
     required String password,
     required int age,
-  }) {
-    final result = remoteDataSource.signUp(
+  }) async {
+    final result = await remoteDataSource.signUp(
       username: username,
       email: email,
       password: password,
       age: age,
     );
 
-    return result.then(
-      (either) => either.fold((left) => Left(left), (right) {
-        final userModel = UserModel.fromMap(right['data']);
-        return Right(userModel);
-      }),
-    );
+    return result.fold((left) => Left(left), (right) {
+      final userModel = UserModel.fromJson(right);
+      return Right(userModel);
+    });
   }
 
   // @override
@@ -51,7 +49,5 @@ class AuthRepoImpl implements AuthRepo {
   // }
 
   @override
-  void logout() {
-    
-  }
+  void logout() {}
 }

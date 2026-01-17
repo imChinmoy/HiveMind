@@ -11,6 +11,7 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.green,
       child: Text('Home Screen'),
     );
   }

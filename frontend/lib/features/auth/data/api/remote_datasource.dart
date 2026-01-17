@@ -32,11 +32,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         headers: {'Content-Type': 'application/json'},
       );
       if (response.statusCode == 200) {
-        return Right({
-          'status': 'success',
-          'data': response.body,
-        });
+        final decoded = jsonDecode(response.body);
+        return Right(decoded);
       }
+
       return Left('Failed to login. Status code: ${response.statusCode}');
     } catch (e) {
       log(e.toString());
@@ -66,11 +65,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return Right({
-          'status': 'success',
-          'data': response.body,
-        });
+        final decoded = jsonDecode(response.body);
+
+        return Right(decoded);
       }
+
       return Left('Failed to sign up. Status code: ${response.statusCode}');
     } catch (e) {
       return Left(e.toString());

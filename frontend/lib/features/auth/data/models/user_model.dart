@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:frontend/features/auth/domain/entities/user_entity.dart/user_entity.dart';
 
 class UserModel extends UserEntity {
@@ -12,28 +10,16 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      email: json['email'],
-      username: json['username'],
-      age: json['age'],
+      id: json['id']?.toString() ?? '',
+      username: json['username']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      age: json['age'] is int
+          ? json['age']
+          : int.tryParse(json['age']?.toString() ?? '') ?? 0,
     );
   }
+
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'username': username,
-      'age': age,
-    };
-  }
-
-  @override
-  String toString() {
-    return 'UserModel(id: $id, email: $email, username: $username, age: $age)';
-  }
-
-  factory UserModel.fromMap(String data) {
-    final Map<String, dynamic> json = jsonDecode(data);
-    return UserModel.fromJson(json);
+    return {'id': id, 'email': email, 'username': username, 'age': age};
   }
 }

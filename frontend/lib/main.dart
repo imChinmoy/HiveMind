@@ -4,18 +4,20 @@ import 'package:frontend/config/themes/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(ProviderScope(child: const HiveMindApp()));
+  runApp(const ProviderScope(child: HiveMindApp()));
 }
 
-class HiveMindApp extends StatelessWidget {
+class HiveMindApp extends ConsumerWidget {
   const HiveMindApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      routerConfig: AppRouter.router,
+      routerConfig: router,
     );
   }
 }

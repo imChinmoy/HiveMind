@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/features/auth/data/api/datasource.dart';
+import 'package:frontend/features/auth/data/api/remote_datasource.dart';
 import 'package:frontend/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
 
