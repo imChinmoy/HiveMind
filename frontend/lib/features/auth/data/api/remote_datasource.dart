@@ -64,7 +64,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         body: jsonEncode(payload),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final decoded = jsonDecode(response.body);
 
         return Right(decoded);

@@ -37,7 +37,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _navigate() async {
-    await Future.delayed(const Duration(seconds: 8));
+    await Future.delayed(const Duration(seconds: 4));
 
     if (!mounted) return;
 
@@ -101,7 +101,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         children: [
                           TextSpan(
                             text: 'Mind',
-                            style: TextStyle(color: AppColors.textPrimaryMuted),
+                            style: TextStyle(color: AppColors.textMuted),
                           ),
                         ],
                       ),

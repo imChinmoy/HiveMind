@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/config/core/toast.dart';
-import 'package:frontend/config/routes/app_router.dart';
 import 'package:frontend/config/themes/app_colors.dart';
+import 'package:frontend/features/auth/domain/entities/auth_state.dart';
 import 'package:frontend/features/auth/presentation/widgets/button.dart';
 import 'package:frontend/features/auth/presentation/widgets/social_button.dart';
 import 'package:frontend/features/auth/presentation/widgets/custom_textfield.dart';
@@ -26,6 +26,30 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final TextEditingController dobController = TextEditingController();
 
   DateTime? selectedDob;
+  late final ProviderSubscription<AuthState> _authSub;
+
+  @override
+  void initState(){
+    super.initState();
+
+    _authSub = ref.listenManual<AuthState>(
+      authNotifierProvider,
+      (previous, next) {
+        if (!mounted) return;
+
+        if (next.user != null && previous?.user == null) {
+          ToastHelper.showSuccess(context, 'Signup Successful!');
+          GoRouter.of(context).go('/home');
+        }
+
+        if (next.error != null && next.error != previous?.error) {
+          ToastHelper.showError(context, next.error!);
+        }
+      },
+    );
+  }
+
+
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) return 'Email cannot be empty';
@@ -70,6 +94,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       age: selectedDob == null ? 0 : DateTime.now().year - selectedDob!.year,
     );
 
+    emailController.clear();
+    usernameController.clear();
+    passwordController.clear();
+    dobController.clear();
+
     
   }
 
@@ -108,6 +137,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
   @override
   void dispose() {
+    _authSub.close();
     emailController.dispose();
     usernameController.dispose();
     passwordController.dispose();
@@ -119,15 +149,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authState = ref.watch(authNotifierProvider);
-
-    final state = ref.read(authNotifierProvider);
-
-    if (state.error != null) {
-      ToastHelper.showError(context, state.error!);
-    } else if (state.user != null) {
-      ToastHelper.showSuccess(context, 'Signup successful!');
-      context.go('/home');
-    }
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -155,7 +176,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     children: [
                       TextSpan(
                         text: 'Mind',
-                        style: TextStyle(color: AppColors.textPrimaryMuted),
+                        style: TextStyle(color: AppColors.textMuted),
                       ),
                     ],
                   ),

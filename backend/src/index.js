@@ -15,7 +15,11 @@ app.use(morgan('dev'));
 
 app.use('/api/auth', authRouter);
 app.get('/', (req, res) => {
-    res.send('HiveMind Backend is running');
+    res.send({
+        status: 'success',
+        message: 'API is running',
+        data: null
+    });
 });
 // app.use('/api/chats', chatRouter);
 app.listen(PORT, () => {

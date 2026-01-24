@@ -3,7 +3,8 @@ import 'app_colors.dart';
 
 class AppTextStyles {
   static const TextStyle heading = TextStyle(
-    fontSize: 18,
+    fontSize: 24,
+    letterSpacing: 2,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     fontFamily: 'Hunters K-Pop',

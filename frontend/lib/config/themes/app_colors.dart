@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Core
-  static const Color background = Color.fromARGB(0, 0, 0, 0);
-  static const Color surface = Color(0xFF2B2D31);
-  static const Color surfaceDark = Color(0xFF232428);
+  static const Color background = Color(0xFF0F1014);
+  static const Color surface = Color(0xFF1A1B21);
+  static const Color surfaceDark = Color(0xFF14151A);
 
-  // Primary (Blurple-inspired)
+  // Brand
   static const Color primary = Color(0xFF5865F2);
-  static const Color primaryHover = Color(0xFF4752C4);
+  static const Color primarySoft = Color(0xFF6D79FF);
 
   // Text
-  static const Color textPrimary = Color(0xFFF2F3F5);
+  static const Color textPrimary = Color(0xFFE6E7EB);
   static const Color textSecondary = Color(0xFFB5BAC1);
-  static const Color textMuted = Color(0xFF949BA4);
-  static const Color textPrimaryMuted = Color.fromARGB(255, 70, 73, 104);
+  static const Color textMuted = Color(0xFF8E9297);
 
   // UI Elements
   static const Color divider = Color(0xFF3F4147);
@@ -33,4 +32,30 @@ class AppColors {
 
   //Cards
   static const Color cardBackground = Color(0xFF202225);
+  // Containers
+  static const Color card = Color(0xFF1E1F25);
+  static const Color dividerColor = Color(0xFF2A2C34);
+}
+
+
+class AppGradients {
+  /// Used ONLY for AppBar
+  static const LinearGradient appBarGradient = LinearGradient(
+    colors: [
+      Color(0xFF1A1B21),
+      Color(0xFF15161B),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  /// Very subtle accent for server rail
+  static const LinearGradient serverRailGradient = LinearGradient(
+    colors: [
+      Color(0xFF1E1F25),
+      Color(0xFF18191E),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }

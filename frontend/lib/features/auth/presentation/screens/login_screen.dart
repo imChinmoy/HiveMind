@@ -123,7 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: [
                       TextSpan(
                         text: 'Mind',
-                        style: TextStyle(color: AppColors.textPrimaryMuted),
+                        style: TextStyle(color: AppColors.textMuted),
                       ),
                     ],
                   ),
