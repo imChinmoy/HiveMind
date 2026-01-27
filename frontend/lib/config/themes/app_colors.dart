@@ -58,4 +58,13 @@ class AppGradients {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static const RadialGradient avatarGradient = RadialGradient(
+    colors: [
+      Color.fromARGB(255, 72, 90, 190),
+      Color.fromARGB(255, 0, 0, 0),
+    ],
+    center: Alignment.bottomRight,
+    radius: 2.3,
+  );
 }

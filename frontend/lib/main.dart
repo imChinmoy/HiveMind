@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/config/themes/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/home/presentation/screens/home_screen.dart';
+import 'package:frontend/features/home/presentation/screens/main_navigation.dart';
 
 void main() {
   runApp(const ProviderScope(child: HiveMindApp()));
@@ -24,7 +25,7 @@ class HiveMindApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: HomeShell(),
+      home: MainNavigationScreen(),
     );
   }
 }

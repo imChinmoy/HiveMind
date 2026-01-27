@@ -1,8 +1,11 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 import 'package:frontend/config/themes/app_textstyle.dart';
 import 'package:frontend/config/utils/dummy.dart';
 import 'package:frontend/features/home/presentation/widgets/avatar_widget.dart';
+import 'package:frontend/features/home/presentation/widgets/channel_card_widget.dart';
+import 'package:frontend/features/profile/presentation/screens/profile_screen.dart';
 
 class HomeShell extends StatefulWidget {
   const HomeShell({Key? key}) : super(key: key);
@@ -21,22 +24,25 @@ class _HomeShellState extends State<HomeShell> {
         slivers: [
           _buildSliverAppBar(),
           _buildServerRail(),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            sliver: _buildExplore(),
+          ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 }
-
 
 SliverAppBar _buildSliverAppBar() {
   return SliverAppBar(
     pinned: true,
     floating: true,
     snap: true,
-    expandedHeight: 140,
+    expandedHeight: 150,
+    collapsedHeight: 100,
     backgroundColor: AppColors.surfaceDark,
-    elevation: 0,
+    elevation: 1,
     centerTitle: true,
     leading: Builder(
       builder: (context) => IconButton(
@@ -45,8 +51,25 @@ SliverAppBar _buildSliverAppBar() {
       ),
     ),
     flexibleSpace: FlexibleSpaceBar(
-      titlePadding: const EdgeInsets.only(left: 56, bottom: 16),
-      title: Text('HiveMind', style: AppTextStyles.heading),
+      centerTitle: true,
+
+      title: RichText(
+        text: TextSpan(
+          text: 'Hive',
+          style: TextStyle(
+            fontFamily: 'Hunters K-Pop',
+            fontWeight: FontWeight.w700,
+            letterSpacing: 3,
+            fontSize: 28,
+          ),
+          children: [
+            TextSpan(
+              text: 'Mind',
+              style: TextStyle(color: AppColors.primarySoft, fontSize: 28),
+            ),
+          ],
+        ),
+      ),
       background: Container(
         decoration: const BoxDecoration(gradient: AppGradients.appBarGradient),
       ),
@@ -57,21 +80,23 @@ SliverAppBar _buildSliverAppBar() {
 SliverToBoxAdapter _buildServerRail() {
   return SliverToBoxAdapter(
     child: Container(
-      height: 88,
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      decoration: const BoxDecoration(
-        gradient: AppGradients.serverRailGradient,
-      ),
+      height: 120,
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(width: 12),
           _AddServerButton(),
-
-          const SizedBox(width: 12),
-          Expanded(child: _serversListView()),
-
-          const SizedBox(width: 12),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(
+                horizontal: 12,
+                vertical: 20,
+              ),
+              child: _serversListView(),
+            ),
+          ),
         ],
       ),
     ),
@@ -82,6 +107,7 @@ Widget _serversListView() {
   final servers = DummyUtils.getServers();
 
   return ListView.separated(
+    physics: const BouncingScrollPhysics(),
     scrollDirection: Axis.horizontal,
     itemCount: servers.length,
     separatorBuilder: (_, __) => const SizedBox(width: 14),
@@ -89,6 +115,7 @@ Widget _serversListView() {
       final server = servers[index];
 
       return AvatarWidget(
+        name: server['name'],
         avatarUrl: server['icon'],
         isOnline: server['isLive'],
         size: 56,
@@ -101,65 +128,92 @@ class _AddServerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 56,
-      height: 56,
+      height: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.surface,
         border: Border.all(color: AppColors.divider),
       ),
-      child: const Icon(Icons.add, color: AppColors.primary, size: 28),
+      child: const Icon(Icons.add, color: AppColors.primary, size: 32),
     );
   }
 }
 
-Widget _buildDrawer() {
-  return Drawer(
-    backgroundColor: AppColors.surfaceDark,
-    child: SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            leading: Icon(Icons.person, color: AppColors.textSecondary),
-            title: Text('Profile', style: AppTextStyles.channelTitle),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings, color: AppColors.textSecondary),
-            title: Text('Settings', style: AppTextStyles.channelTitle),
-          ),
-          ListTile(
-            leading: Icon(Icons.logout, color: AppColors.danger),
-            title: Text('Logout', style: AppTextStyles.messageText),
-          ),
-        ],
-      ),
+SliverToBoxAdapter _buildExplore() {
+  return SliverToBoxAdapter(
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Explore', style: AppTextStyles.heading),
+
+            GestureDetector(
+              onTap: () {
+                log('clicked view all');
+              },
+              child: Text(
+                'View all channels',
+                style: AppTextStyles.messageText,
+              ),
+            ),
+          ],
+        ),
+        _ChannelsListView(),
+      ],
     ),
   );
 }
 
+Widget _ChannelsListView() {
+  final getChannels = DummyUtils.getChannels();
 
-Widget _buildBottomNavigationBar(){
+  return ListView.separated(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: getChannels.length,
+    separatorBuilder: (_, __) => const SizedBox(height: 12),
+    itemBuilder: (context, index) {
+      final channel = getChannels[index];
+      return ChannelCardWidget(
+        thumbnail: channel['thumbnail'],
+        title: channel['title'],
+        subscriberCount: channel['subscriberCount'],
+        callback: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+        ),
+      );
+    },
+  );
+}
 
-  
-  return BottomNavigationBar(
-    backgroundColor: AppColors.surfaceDark,
-    unselectedItemColor: AppColors.textSecondary,
-    selectedItemColor: AppColors.primary,
-    currentIndex: 0,
-    items: const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+
+Widget _buildDrawer() {
+  return SafeArea(
+    child: Drawer(
+      backgroundColor: AppColors.surfaceDark,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: Icon(Icons.person, color: AppColors.textSecondary),
+              title: Text('Profile', style: AppTextStyles.channelTitle),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings, color: AppColors.textSecondary),
+              title: Text('Settings', style: AppTextStyles.channelTitle),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout, color: AppColors.danger),
+              title: Text('Logout', style: AppTextStyles.messageText),
+            ),
+          ],
+        ),
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.search),
-        label: 'Search',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: 'Profile',
-      ),
-    ],
+    ),
   );
 }
