@@ -1,6 +1,7 @@
 import { servers, serverMembers, channels, invites } from "../database/schema.js"
 import { db } from '../database/db.js'
 import crypto from 'crypto';
+import { eq, and } from "drizzle-orm";
 
 export const createServer = async (req, res) => {
     try {
@@ -51,3 +52,68 @@ export const createServer = async (req, res) => {
         res.status(500).json({ message: `Error creating server: ${error.message}` });
     }
 }
+
+export const joinServer = async (req, res) => {
+
+    try {
+        const { inviteCode } = req.body;
+        const userId = req.user.userId;
+
+        if (!inviteCode) {
+            return res.status(400).json({ message: 'Invite code is required.' });
+        }
+
+        const [invite] = await db.select().from(invites).where(eq(invites.code, inviteCode));
+
+        if (!invite) {
+            return res.status(404).json({ message: 'Server code not found.' });
+        }
+
+        const alreadyJoined = await db.select().from(serverMembers).where(and(eq(serverMembers.serverId, invite.serverId), eq(serverMembers.userId, userId)));
+
+        if (alreadyJoined.length > 0) {
+            return res.status(400).json({ message: 'You are already a member of this server.' });
+        }
+
+        await db.insert(serverMembers).values({
+            serverId: invite.serverId,
+            userId: userId,
+            role: 'member'
+        })
+
+        res.status(201).json({
+            messages: 'Server joined successfully.',
+            server: {
+                id: invite.id,
+                name: invite.name,
+                iconUrl: invite.iconUrl
+            }
+        });
+
+
+    } catch (error) {
+        res.status(500).json({ message: `Error joining server: ${error.message}` });
+    }
+}
+
+export const getServers = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        const myServers = await db
+            .select({
+                id: servers.id,
+                name: servers.name,
+                iconUrl: servers.iconUrl,
+                role: serverMembers.role,
+            })
+            .from(serverMembers)
+            .innerJoin(servers, eq(serverMembers.serverId, servers.id))
+            .where(eq(serverMembers.userId, userId));
+
+        return res.status(200).json(myServers);
+    } catch (error) {
+        console.error("Get servers error:", error);
+        return res.status(500).json({ message: "Internal server error." });
+    }
+};

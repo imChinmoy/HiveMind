@@ -6,6 +6,10 @@ class DummyUtils {
   static List<Map<String, dynamic>> getChannels(){
     return dummyChannels;
   }
+
+  static List<Map<String, dynamic>> getCategories(){
+    return dummyCategories;
+  }
 }
 
 
@@ -204,6 +208,40 @@ final List<Map<String, dynamic>> dummyServers = [
 
 
 final List<Map<String, dynamic>> dummyChannels = [
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1522199710521-72d69614c702?w=400&h=240&fit=crop',
+    'title': 'Flutter Devs',
+    'subscriberCount': 12450,
+  },
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=240&fit=crop',
+    'title': 'AI & Machine Learning',
+    'subscriberCount': 98700,
+  },
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1517433456452-f9633a875f6f?w=400&h=240&fit=crop',
+    'title': 'Startup Founders',
+    'subscriberCount': 34210,
+  },
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=240&fit=crop',
+    'title': 'Mobile UI/UX',
+    'subscriberCount': 18760,
+  },
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=240&fit=crop',
+    'title': 'Open Source Hub',
+    'subscriberCount': 56030,
+  },
+  {
+    'thumbnail': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=240&fit=crop',
+    'title': 'Remote Developers',
+    'subscriberCount': 23190,
+  },
+];
+
+
+final List<Map<String, dynamic>> dummyCategories = [
   {
     'thumbnail': 'https://images.unsplash.com/photo-1522199710521-72d69614c702?w=400&h=240&fit=crop',
     'title': 'Flutter Devs',

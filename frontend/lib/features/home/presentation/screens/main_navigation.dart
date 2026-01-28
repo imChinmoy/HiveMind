@@ -14,7 +14,6 @@ class MainNavigationScreen extends StatelessWidget {
     final PersistentTabController _controller =
         PersistentTabController(initialIndex: 0);
 
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         if (_controller.index != 0) {
@@ -29,6 +28,8 @@ class MainNavigationScreen extends StatelessWidget {
         screens: const [
           HomeShell(),
           Center(child: Text('Search', style: TextStyle(fontSize: 24))),
+          Center(child: Text('Add', style: TextStyle(fontSize: 24))),
+          Center(child: Text('Chat', style: TextStyle(fontSize: 24))),
           ProfileScreen(),
         ],
         items: _navBarItems(),
@@ -37,20 +38,21 @@ class MainNavigationScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         stateManagement: true,
         backgroundColor: Colors.transparent,
-        navBarHeight: 70,
+        navBarHeight: 75,
         margin: const EdgeInsets.all(16),
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(25),
           colorBehindNavBar: Colors.transparent,
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.25),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        navBarStyle: NavBarStyle.style6, 
+        navBarStyle: NavBarStyle.style6,
       ),
     );
   }
@@ -62,18 +64,52 @@ class MainNavigationScreen extends StatelessWidget {
         title: "Home",
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: AppColors.textSecondary,
+        contentPadding: 2,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.search, size: 26),
         title: "Search",
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: AppColors.textSecondary,
+        contentPadding: 2,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              // ignore: deprecated_member_use
+              colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(10),
+          child: const Icon(Icons.add, size: 32, color: Colors.white),
+        ),
+        title: "",
+        activeColorPrimary: Colors.transparent,
+        inactiveColorPrimary: Colors.transparent,
+        contentPadding: 0,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(Icons.chat_bubble, size: 26),
+        title: "Chat",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.textSecondary,
+        contentPadding: 2,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.person, size: 26),
         title: "Profile",
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: AppColors.textSecondary,
+        contentPadding: 2,
       ),
     ];
   }

@@ -159,14 +159,14 @@ SliverToBoxAdapter _buildExplore() {
             ),
           ],
         ),
-        _ChannelsListView(),
+        _CategoriesListView(),
       ],
     ),
   );
 }
 
-Widget _ChannelsListView() {
-  final getChannels = DummyUtils.getChannels();
+Widget _CategoriesListView() {
+  final getChannels = DummyUtils.getCategories();
 
   return ListView.separated(
     shrinkWrap: true,
