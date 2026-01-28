@@ -117,3 +117,39 @@ export const getServers = async (req, res) => {
         return res.status(500).json({ message: "Internal server error." });
     }
 };
+
+
+export const leaveServer = async (req, res) => {
+    try {
+        const { serverId } = req.params;
+        const userId = req.user.userId;
+
+        const [server] = await db
+            .select()
+            .from(servers)
+            .where(eq(servers.id, serverId));
+
+        if (!server) {
+            return res.status(404).json({ message: "Server not found." });
+        }
+
+        if (server.ownerId === userId) {
+            return res
+                .status(400)
+                .json({ message: "Owner cannot leave the server." });
+        }
+
+        await db
+            .delete(serverMembers)
+            .where(
+                eq(serverMembers.serverId, serverId),
+                eq(serverMembers.userId, userId)
+            );
+
+        return res.status(200).json({ message: "Left server successfully." });
+    } catch (error) {
+        console.error("Leave server error:", error);
+        return res.status(500).json({ message: "Internal server error." });
+    }
+};
+
