@@ -35,6 +35,8 @@ class _HomeShellState extends State<HomeShell> {
 }
 
 SliverAppBar _buildSliverAppBar() {
+
+  
   return SliverAppBar(
     pinned: true,
     floating: true,

@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/features/auth/data/models/user_model.dart';
 import 'package:frontend/features/auth/domain/entities/auth_state.dart';
+import 'package:frontend/features/auth/domain/entities/user_entity.dart/user_entity.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -53,6 +55,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
+
+  Future<void> getCachedUser() async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    final result = await repository.getCachedUser();
+
+    result.fold(
+      (error) {
+        state = state.copyWith(isLoading: false, error: error);
+      },
+      (user) {
+        state = state.copyWith(isLoading: false, user: user);
+      },
+    );
+  }
   void logout() {
     state = const AuthState();
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/auth/presentation/state/provider.dart';
@@ -32,23 +33,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
 
     _fadeController.forward();
-
-    _navigate();
+    Future.microtask((){
+      final user = ref.read(authNotifierProvider.notifier).getCachedUser();
+      log(user.toString());
+    });
+    // _navigate();
   }
 
-  Future<void> _navigate() async {
-    await Future.delayed(const Duration(seconds: 4));
+  // Future<void> _navigate() async {
+  //   await Future.delayed(const Duration(seconds: 4));
 
-    if (!mounted) return;
+  //   if (!mounted) return;
 
-    final authState = ref.read(authNotifierProvider);
-    if (authState.user != null){
-      context.go('/home');
-    }
-    else{
-      context.go('/login');
-    }
-  }
+  //   final authState = ref.read(authNotifierProvider);
+  //   if (authState.user != null){
+  //     context.go('/home');
+  //   }
+  //   else{
+  //     context.go('/login');
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -58,6 +62,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+
+    ref.listen(authNotifierProvider, (previous, next) {
+      if (next.isLoading) return;
+
+      if (next.user != null){
+        context.go('/home');
+      }
+      else{
+        context.go('/login');
+      }
+    });
+
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(

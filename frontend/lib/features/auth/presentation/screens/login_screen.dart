@@ -35,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       if (next.user != null && previous?.user == null) {
         ToastHelper.showSuccess(context, 'Login Successful!');
-        GoRouter.of(context).go('/home');
+        GoRouter.of(context).go('/main-navigation');
         
       }
 

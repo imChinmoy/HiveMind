@@ -4,6 +4,7 @@ import 'package:frontend/features/auth/domain/entities/auth_state.dart';
 import 'package:frontend/features/auth/presentation/screens/login_screen.dart';
 import 'package:frontend/features/auth/presentation/screens/signup_screen.dart';
 import 'package:frontend/features/home/presentation/screens/home_screen.dart';
+import 'package:frontend/features/home/presentation/screens/main_navigation.dart';
 import 'package:frontend/features/profile/presentation/screens/profile_screen.dart';
 import 'package:frontend/splash_screen.dart';
 import 'package:frontend/features/auth/presentation/state/provider.dart';
@@ -49,6 +50,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return '/login';
         },
       ),
+      GoRoute(path: '/main-navigation', 
+        builder: (context, state) => const MainNavigationScreen(),
+      
+      )
     ],
   );
 });

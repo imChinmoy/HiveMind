@@ -13,6 +13,8 @@ abstract class AuthRepo {
     required String password,
   });
 
+  Future<Either<String, UserEntity>> getCachedUser();
+
   void logout();
   // Future<Either<String, UserEntity>> getUserById({required String id});  
 

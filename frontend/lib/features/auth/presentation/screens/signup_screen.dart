@@ -39,7 +39,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
         if (next.user != null && previous?.user == null) {
           ToastHelper.showSuccess(context, 'Signup Successful!');
-          GoRouter.of(context).go('/home');
+          GoRouter.of(context).go('/main-navigation');
         }
 
         if (next.error != null && next.error != previous?.error) {

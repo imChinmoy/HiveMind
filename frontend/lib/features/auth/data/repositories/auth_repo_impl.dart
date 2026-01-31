@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:frontend/config/network/either.dart';
+import 'package:frontend/features/auth/data/api/local_datasource.dart';
 import 'package:frontend/features/auth/data/api/remote_datasource.dart';
 import 'package:frontend/features/auth/data/models/user_model.dart';
+import 'package:frontend/features/auth/domain/entities/user_entity.dart/user_entity.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final RemoteDataSource remoteDataSource;
-  AuthRepoImpl({required this.remoteDataSource});
+  final LocalDatasource localDataSource;
+  AuthRepoImpl({required this.remoteDataSource, required this.localDataSource});
 
   @override
   Future<Either<String, UserModel>> login({
@@ -16,8 +21,10 @@ class AuthRepoImpl implements AuthRepo {
       username: username,
       password: password,
     );
-    return result.fold((left) => Left(left), (right) {
+
+    return await result.fold((left) async => Left(left), (right) async {
       final userModel = UserModel.fromJson(right);
+      await localDataSource.saveUser(userModel);
       return Right(userModel);
     });
   }
@@ -36,18 +43,24 @@ class AuthRepoImpl implements AuthRepo {
       age: age,
     );
 
-    return result.fold((left) => Left(left), (right) {
+    return await result.fold((left) async => Left(left), (right) async {
       final userModel = UserModel.fromJson(right);
+      await localDataSource.saveUser(userModel);
       return Right(userModel);
     });
   }
 
-  // @override
-  // Future<Either<String, UserEntity>> getUserById({required String id}) {
-  //   // TODO: implement getUserById
-  //   throw UnimplementedError();
-  // }
-
   @override
   void logout() {}
+
+  @override
+  Future<Either<String, UserModel>> getCachedUser() async {
+    try {
+      final user = await localDataSource.getUser();
+
+      return Right(user);
+    } catch (e) {
+      return Left('NO cached user found');
+    }
+  }
 }
