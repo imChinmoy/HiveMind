@@ -1,0 +1,43 @@
+####################################
+# 🔐 SECRETS & ENV FILES
+####################################
+.env
+.env.*
+*.env
+
+
+####################################
+# 🧠 BACKEND (Node.js + Socket.IO)
+####################################
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/.env.*
+
+
+####################################
+# 🌐 FLUTTER WEB
+####################################
+**/web/.dart_tool/
+**/web/build/
+
+####################################
+# 🧪 IDE / EDITOR JUNK
+####################################
+.idea/
+.vscode/
+*.iml
+*.log
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+####################################
+# 🧾 LOCK FILES (OPTIONAL)
+####################################
+# If this is a library → ignore
+# If this is an app → you may keep pubspec.lock
+# pubspec.lock
