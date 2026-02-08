@@ -1,6 +1,10 @@
-import { addMemberToServer, createServer, findServer, ownerServers } from "./server.repository.js";
-import { db } from "../../core/db/drizzle.js";
-import { servers, serverMembers } from "../../core/db/schema/serverSchema.js";
+import {
+  addMemberToServer,
+  createServer,
+  findServer,
+  leaveServer,
+  ownerServers,
+} from "./server.repository.js";
 
 export const listUserServersService = async (userId: string) => {
   return ownerServers(userId);
@@ -21,7 +25,7 @@ export const createServerService = async ({
   if (isExist) {
     throw new Error("Server with this name already exists");
   }
-  return createServer({ name, avatar, userId});
+  return createServer({ name, avatar, userId });
 };
 
 export const joinServerService = async ({
@@ -38,5 +42,10 @@ export const joinServerService = async ({
   }
 
   const result = await addMemberToServer({ serverId: server.id, userId });
+  return result;
+};
+
+export const leaveServerService = async (serverId: string, userId: string) => {
+  const result = await leaveServer({ serverId, userId });
   return result;
 };

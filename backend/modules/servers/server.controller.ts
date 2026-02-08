@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createServerService,
   joinServerService,
+  leaveServerService,
   listUserServersService,
 } from "./server.service.js";
 import { createServerSchema } from "./server.schema.js";
@@ -46,6 +47,22 @@ export async function joinServerController(req: Request, res: Response) {
 
     const server = await joinServerService({ name: serverName, userId });
     res.json(server);
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+}
+
+export async function leaveServerController(req: Request, res: Response) {
+  try {
+    const { serverId } = req.params;
+    const userId = req.user.id;
+    
+    if (!serverId) {
+      throw new Error("Server ID is required");
+    }
+
+    await leaveServerService( serverId.toString(), userId );
+    res.json({ message: "Left the server successfully" });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
