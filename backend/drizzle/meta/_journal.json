@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1770494267164,
-      "tag": "0000_nifty_boomerang",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1770535536110,
-      "tag": "0001_careful_cargill",
+      "when": 1770579632026,
+      "tag": "0000_closed_bromley",
       "breakpoints": true
     }
   ]
