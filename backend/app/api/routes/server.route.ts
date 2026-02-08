@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/create", authMiddleware, createServerController);
 router.get("/myservers", authMiddleware, listServersController);
-router.post("/join/:name", authMiddleware, joinServerController);
+router.post("/join/", authMiddleware, joinServerController);
 router.post("/leave/:serverId", authMiddleware, leaveServerController);
 
 export default router;
