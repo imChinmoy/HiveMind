@@ -23,7 +23,9 @@ export const loginService = async ({
   const accessToken = signAccessToken({ id: user.id });
   const refreshToken = signRefreshToken({ id: user.id });
 
-  return { user, accessToken, refreshToken };
+  const { password: _, ...userWithoutPassword } = user;
+
+  return { user: userWithoutPassword, accessToken, refreshToken };
 };
 
 export const registerService = async ({

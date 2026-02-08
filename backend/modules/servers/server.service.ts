@@ -1,11 +1,9 @@
-import { findServer, ownerServers } from "./server.repository.js";
+import { createServer, findServer, ownerServers } from "./server.repository.js";
 import { db } from "../../core/db/drizzle.js";
 import { servers } from "../../core/db/schema/serverSchema.js";
 
 export const listUserServersService = async (userId: string) => {
-  const servers = await ownerServers(userId);
-
-  return servers;
+  return ownerServers(userId);
 };
 
 export const createServerService = async ({
@@ -22,14 +20,5 @@ export const createServerService = async ({
   if (isExist) {
     throw new Error("Server with this name already exists");
   }
-
-  const server = await db
-    .insert(servers)
-    .values({
-      name,
-      avatar,
-      owner: userId,
-    })
-    .returning();
-  return server[0];
+  return createServer({ name, avatar, userId });
 };

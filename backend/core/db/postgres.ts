@@ -4,7 +4,7 @@ import { logger } from "../logger/logger.js"
 
 export const pool = new Pool({
   connectionString: config.DATABASE_URL,
-  ssl: false
+  ssl: config.NODE_ENV === "production"
 });
 
 
