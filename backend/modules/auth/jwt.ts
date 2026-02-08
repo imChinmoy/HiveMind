@@ -8,7 +8,7 @@ export const verifyToken = (token: string) => {
 };
 
 export const signAccessToken = (payload: object) => {
-  return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "15m" });
+  return jwt.sign(payload, ACCESS_SECRET, { expiresIn: "1d" });
 };
 
 export const signRefreshToken = ( payload: object) => {
