@@ -8,8 +8,8 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: backend
+      POSTGRES_PASSWORD: postgrespass
+      POSTGRES_DB: hivemind
     volumes:
       - pgdata:/var/lib/postgresql/data
 
