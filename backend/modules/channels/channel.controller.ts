@@ -3,7 +3,7 @@ import {
   createChannelService,
   getAllChannelsService,
 } from "./channel.service.js";
-import { createChannelSchema, getAllChannelsSchema } from "./channel.type.js";
+import { createChannelSchema, getAllChannelsSchema } from "./channel.schema.js";
 
 export const listAllChannelsController = async (
   req: Request,

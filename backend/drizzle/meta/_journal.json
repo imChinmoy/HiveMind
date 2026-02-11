@@ -15,6 +15,13 @@
       "when": 1770701361089,
       "tag": "0001_outgoing_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770768788225,
+      "tag": "0002_lame_inertia",
+      "breakpoints": true
     }
   ]
 }
