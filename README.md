@@ -325,8 +325,14 @@ hivemind/
 - [x] Message threading & reactions
 - [x] File upload & media handling
 
-### Phase 2 — Intelligence Layer 🧠
-**Q2 2025**
+### Phase 2 — Collaboration Layer 🤝
+- [ ] WebRTC voice/video channels
+- [ ] Screen sharing & remote cursors
+- [ ] Collaborative code editor
+- [ ] Interactive whiteboards
+- [ ] Project workspaces with kanban
+- [ ] Version-controlled documents
+### Phase 3 — Intelligence Layer 🧠
 - [ ] Vector embeddings for semantic search
 - [ ] RAG-powered Q&A system
 - [ ] Thread summarization AI
@@ -334,17 +340,8 @@ hivemind/
 - [ ] Knowledge graph generation
 - [ ] Auto-tagging & categorization
 
-### Phase 3 — Collaboration Layer 🤝
-**Q3 2025**
-- [ ] WebRTC voice/video channels
-- [ ] Screen sharing & remote cursors
-- [ ] Collaborative code editor
-- [ ] Interactive whiteboards
-- [ ] Project workspaces with kanban
-- [ ] Version-controlled documents
 
 ### Phase 4 — Ambient Intelligence 🌐
-**Q4 2025**
 - [ ] Predictive presence detection
 - [ ] Context-aware command palette
 - [ ] Multi-modal AI assistant
@@ -352,14 +349,6 @@ hivemind/
 - [ ] Smart digest generation
 - [ ] Cross-community discovery
 
-### Phase 5 — Decentralization 🔮
-**2026**
-- [ ] Event sourcing & CQRS
-- [ ] Distributed WebRTC mesh
-- [ ] Federated communities (ActivityPub)
-- [ ] E2E encryption for private channels
-- [ ] Blockchain-based reputation
-- [ ] Plugin marketplace
 
 ---
 
