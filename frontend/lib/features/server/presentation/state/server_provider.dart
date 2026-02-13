@@ -5,7 +5,12 @@ import 'package:frontend/features/server/data/repository/server_repository_impl.
 import 'package:frontend/features/server/domain/repository/server_repository.dart';
 import 'package:http/http.dart' as http;
 
-final httpClientProvider = Provider<http.Client>((ref) => http.Client());
+final httpClientProvider = Provider<http.Client>((ref) {
+  final client = http.Client();
+  ref.onDispose(() => client.close());
+  return client;
+  
+  });
 
 final localDatasourceProvider = Provider<LocalDatasource>((ref) {
   return LocalDatasourceImpl();

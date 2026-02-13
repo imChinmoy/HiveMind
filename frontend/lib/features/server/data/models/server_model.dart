@@ -12,12 +12,13 @@ class ServerModel extends ServerEntity {
 
   factory ServerModel.fromJson(Map<String, dynamic> json) {
     return ServerModel(
-      id: json['id'],
-      name: json['name'],
-      avatar: json['avatar'],
-      description: json['description'],
-      ownerId: json['ownerId'],
-      createdAt: DateTime.parse(json['createdAt'] as String),
+
+      id: json['id'] ?? '',
+      name: json['name'] as String? ?? '',
+      avatar: json['avatar'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      ownerId: json['ownerId'] as String? ?? '',
+      createdAt: DateTime.parse(json['createdAt'] ?? ''),
     );
   }
 

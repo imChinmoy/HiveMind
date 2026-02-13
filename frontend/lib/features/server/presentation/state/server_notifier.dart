@@ -56,13 +56,14 @@ class ServerNotifier extends AsyncNotifier<List<ServerEntity>> {
     required String serverName,
   }) async {
     final repo = ref.read(serverRepositoryProvider);
-
     final result = await repo.joinServer(
       serverId: serverId,
       serverName: serverName,
     );
-
-    return result.fold((error) => throw Exception(error), (server) => server);
+    return result.fold((error) => throw Exception(error), (server) {
+      state = AsyncData([...state.value ?? [], server]);
+      return server;
+    });
   }
 
   Future<ServerEntity> leaveServer({
@@ -71,6 +72,11 @@ class ServerNotifier extends AsyncNotifier<List<ServerEntity>> {
   }) async {
     final repo = ref.read(serverRepositoryProvider);
     final result = await repo.leaveServer(serverId: serverId, userId: userId);
-    return result.fold((error) => throw Exception(error), (server) => server);
+    return result.fold((error) => throw Exception(error), (server) {
+      state = AsyncData(
+        (state.value ?? []).where((s) => s.id != serverId).toList(),
+      );
+      return server;
+    });
   }
 }

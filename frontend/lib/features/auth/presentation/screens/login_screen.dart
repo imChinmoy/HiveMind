@@ -63,21 +63,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) return 'Username cannot be empty';
-    if (value.length < 3) return 'Username must be at least 3 characters';
+    if (value == null || value.isEmpty) return 'Password cannot be empty';
+    if (value.length < 8) return 'Password must be at least 8 characters';
+    final numberRegex = RegExp(r'\d');
+    final letterRegex = RegExp(r'[A-Za-z]');
+    if (!numberRegex.hasMatch(value) || !letterRegex.hasMatch(value)) {
+      return 'Password must contain letters and numbers';
+    }
     return null;
   }
-
-  // String? _validatePassword(String? value) {
-  //   if (value == null || value.isEmpty) return 'Password cannot be empty';
-  //   if (value.length < 8) return 'Password must be at least 8 characters';
-  //   final numberRegex = RegExp(r'\d');
-  //   final letterRegex = RegExp(r'[A-Za-z]');
-  //   if (!numberRegex.hasMatch(value) || !letterRegex.hasMatch(value)) {
-  //     return 'Password must contain letters and numbers';
-  //   }
-  //   return null;
-  // }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
