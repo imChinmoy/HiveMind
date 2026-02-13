@@ -12,7 +12,7 @@ abstract class RemoteDataSource {
     required int age,
   });
   Future<Either<String, Map<String, dynamic>>> login({
-    required String username,
+    required String email,
     required String password,
   });
 }
@@ -20,11 +20,11 @@ abstract class RemoteDataSource {
 class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<Either<String, Map<String, dynamic>>> login({
-    required String username,
+    required String email,
     required String password,
   }) async {
     try {
-      final payload = {'username': username, 'password': password};
+      final payload = {'email': email, 'password': password};
       final url = Uri.parse('${AppConstants.apiDevelopmentUrl}/auth/login');
       final response = await http.post(
         url,
@@ -34,9 +34,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         return Right(decoded);
+      }else{
+        final decoded = jsonDecode(response.body);
+        return Left(decoded['message']);
       }
-
-      return Left('Failed to login. Status code: ${response.statusCode}');
     } catch (e) {
       log(e.toString());
       return Left(e.toString());

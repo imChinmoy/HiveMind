@@ -1,5 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:frontend/features/server/presentation/screens/my_servers_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 import 'package:frontend/features/home/presentation/screens/home_screen.dart';
@@ -28,7 +28,7 @@ class MainNavigationScreen extends StatelessWidget {
         screens: const [
           HomeShell(),
           Center(child: Text('Search', style: TextStyle(fontSize: 24))),
-          Center(child: Text('Add', style: TextStyle(fontSize: 24))),
+          MyServersScreen(),
           Center(child: Text('Chat', style: TextStyle(fontSize: 24))),
           ProfileScreen(),
         ],
@@ -37,9 +37,10 @@ class MainNavigationScreen extends StatelessWidget {
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
         stateManagement: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(84, 10, 10, 10),
         navBarHeight: 75,
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+        padding: const EdgeInsets.all(16),
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(25),
           colorBehindNavBar: Colors.transparent,
@@ -74,28 +75,11 @@ class MainNavigationScreen extends StatelessWidget {
         contentPadding: 2,
       ),
       PersistentBottomNavBarItem(
-        icon: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              // ignore: deprecated_member_use
-              colors: [AppColors.primary, AppColors.primary.withOpacity(0.7)],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(10),
-          child: const Icon(Icons.add, size: 32, color: Colors.white),
-        ),
-        title: "",
-        activeColorPrimary: Colors.transparent,
-        inactiveColorPrimary: Colors.transparent,
-        contentPadding: 0,
+        icon: const Icon(Icons.add_circle, size: 26),
+        title: "Add",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.textSecondary,
+        contentPadding: 2,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.chat_bubble, size: 26),

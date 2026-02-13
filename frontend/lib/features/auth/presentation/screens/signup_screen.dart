@@ -74,7 +74,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     }
     return null;
   }
-
   String? _validateDob(String? value) {
     if (selectedDob == null) return 'Date of birth is required';
     final age = DateTime.now().year - selectedDob!.year;
