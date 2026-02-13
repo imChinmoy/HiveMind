@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:frontend/config/core/custom_appbar.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 import 'package:frontend/config/themes/app_textstyle.dart';
 import 'package:frontend/config/utils/dummy.dart';
@@ -22,7 +23,7 @@ class _HomeShellState extends State<HomeShell> {
       drawer: _buildDrawer(),
       body: CustomScrollView(
         slivers: [
-          _buildSliverAppBar(),
+          CustomAppbar(p1title: "Hive", p2title: "Mind"),
           _buildServerRail(),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -34,50 +35,6 @@ class _HomeShellState extends State<HomeShell> {
   }
 }
 
-SliverAppBar _buildSliverAppBar() {
-
-  
-  return SliverAppBar(
-    pinned: true,
-    floating: true,
-    snap: true,
-    expandedHeight: 150,
-    collapsedHeight: 100,
-    backgroundColor: AppColors.surfaceDark,
-    elevation: 1,
-    centerTitle: true,
-    leading: Builder(
-      builder: (context) => IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () => Scaffold.of(context).openDrawer(),
-      ),
-    ),
-    flexibleSpace: FlexibleSpaceBar(
-      centerTitle: true,
-
-      title: RichText(
-        text: TextSpan(
-          text: 'Hive',
-          style: TextStyle(
-            fontFamily: 'Hunters K-Pop',
-            fontWeight: FontWeight.w700,
-            letterSpacing: 3,
-            fontSize: 28,
-          ),
-          children: [
-            TextSpan(
-              text: 'Mind',
-              style: TextStyle(color: AppColors.primarySoft, fontSize: 28),
-            ),
-          ],
-        ),
-      ),
-      background: Container(
-        decoration: const BoxDecoration(gradient: AppGradients.appBarGradient),
-      ),
-    ),
-  );
-}
 
 SliverToBoxAdapter _buildServerRail() {
   return SliverToBoxAdapter(

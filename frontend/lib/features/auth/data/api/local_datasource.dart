@@ -4,6 +4,10 @@ import 'package:hive/hive.dart';
 abstract class LocalDatasource {
   Future<UserModel> getUser();
   Future<void> saveUser(UserModel user);
+  Future<void> saveAccessToken(String accessToken);
+  Future<String?> getAccessToken();
+  Future<void> saveRefreshToken(String refreshToken);
+  Future<String?> getRefreshToken();
 }
 
 
@@ -21,5 +25,22 @@ class LocalDatasourceImpl implements LocalDatasource {
   Future<void> saveUser(UserModel user) async {
     await _user.put('user', user.toJson());
     
+  }
+  @override
+  Future<void> saveAccessToken(String accessToken) async {
+    await _user.put('accessToken', accessToken);
+  }
+
+  @override
+  Future<void> saveRefreshToken(String refreshToken) async {
+    await _user.put('refreshToken', refreshToken);
+  }
+  @override
+  Future<String?> getAccessToken() async {
+    return _user.get('accessToken');
+  }
+  @override
+  Future<String?> getRefreshToken() async {
+    return _user.get('refreshToken');
   }
 }

@@ -23,7 +23,7 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _obscureText;
-  bool _isFocused = false;
+  bool? _isFocused = false;
   final FocusNode _focusNode = FocusNode();
 
   @override

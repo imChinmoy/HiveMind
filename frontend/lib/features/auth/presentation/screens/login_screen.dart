@@ -18,7 +18,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   late final ProviderSubscription<AuthState> _authSub;
@@ -50,38 +50,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void dispose() {
     _authSub.close();
-    usernameController.dispose();
+    emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
-  String? _validateUsername(String? value) {
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) return 'Email cannot be empty';
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(value)) return 'Please enter a valid email';
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) return 'Username cannot be empty';
     if (value.length < 3) return 'Username must be at least 3 characters';
     return null;
   }
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) return 'Password cannot be empty';
-    if (value.length < 8) return 'Password must be at least 8 characters';
-    final numberRegex = RegExp(r'\d');
-    final letterRegex = RegExp(r'[A-Za-z]');
-    if (!numberRegex.hasMatch(value) || !letterRegex.hasMatch(value)) {
-      return 'Password must contain letters and numbers';
-    }
-    return null;
-  }
+  // String? _validatePassword(String? value) {
+  //   if (value == null || value.isEmpty) return 'Password cannot be empty';
+  //   if (value.length < 8) return 'Password must be at least 8 characters';
+  //   final numberRegex = RegExp(r'\d');
+  //   final letterRegex = RegExp(r'[A-Za-z]');
+  //   if (!numberRegex.hasMatch(value) || !letterRegex.hasMatch(value)) {
+  //     return 'Password must contain letters and numbers';
+  //   }
+  //   return null;
+  // }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
     final notifier = ref.read(authNotifierProvider.notifier);
     await notifier.login(
-      username: usernameController.text.trim(),
+      email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
 
-    usernameController.clear();
+    emailController.clear();
     passwordController.clear();
   
   }
@@ -142,9 +149,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 SizedBox(height: size.height * 0.08),
 
                 CustomTextField(
-                  hint: 'Username',
-                  controller: usernameController,
-                  validator: _validateUsername,
+                  hint: 'Email',
+                  controller: emailController,
+                  validator: _validateEmail,
                 ),
                 const SizedBox(height: 16),
 

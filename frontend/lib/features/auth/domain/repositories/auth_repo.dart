@@ -9,7 +9,7 @@ abstract class AuthRepo {
     required int age
   });
   Future<Either<String, UserEntity>> login({
-    required String username,
+    required String email,
     required String password,
   });
 

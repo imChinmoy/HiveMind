@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/features/auth/data/models/user_model.dart';
+import 'package:frontend/config/network/either.dart';
 import 'package:frontend/features/auth/domain/entities/auth_state.dart';
 import 'package:frontend/features/auth/domain/entities/user_entity.dart/user_entity.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
@@ -9,16 +9,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier(this.repository) : super(const AuthState());
 
-  Future<void> login({
-    required String username,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     state = state.copyWith(isLoading: true, error: null);
 
-    final result = await repository.login(
-      username: username,
-      password: password,
-    );
+    final result = await repository.login(email: email, password: password);
 
     (result).fold(
       (error) {
@@ -55,8 +49,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
   }
 
-
-  Future<void> getCachedUser() async {
+  Future<Either<String, UserEntity>> getCachedUser() async {
     state = state.copyWith(isLoading: true, error: null);
 
     final result = await repository.getCachedUser();
@@ -69,7 +62,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, user: user);
       },
     );
+    return result;
   }
+
   void logout() {
     state = const AuthState();
   }
