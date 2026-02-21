@@ -5,6 +5,7 @@ export const servers = pgTable("servers", {
     id: uuid('id').defaultRandom().primaryKey(),
     name: varchar('name', { length: 50 }).notNull(),
     avatar: varchar('avatar', { length: 255 }),
+    description: varchar('description', { length: 255 }),
     owner: uuid('owner_id').notNull().references(() => users.id),
     createdAt: timestamp('created_at').defaultNow()
 })

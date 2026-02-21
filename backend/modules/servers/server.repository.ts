@@ -1,15 +1,17 @@
 import { serverMembers, servers } from "../../core/db/schema/serverSchema.js";
 import { db } from "../../core/db/drizzle.js";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 
 export const createServer = async ({
   name,
   avatar,
   userId,
+  description
 }: {
   name: string;
   avatar?: string;
   userId: string;
+  description?:string;
 }) => {
   const server = await db
     .insert(servers)
@@ -17,6 +19,7 @@ export const createServer = async ({
       name,
       avatar,
       owner: userId,
+      description
     })
     .returning();
 
@@ -30,9 +33,19 @@ export const createServer = async ({
 
 export const ownerServers = async (userId: string) => {
   const userServers = await db
-    .select()
-    .from(servers)
-    .where(eq(servers.owner, userId));
+    .select({
+      id: servers.id,
+      name: servers.name,
+      avatar: servers.avatar,
+      owner: servers.owner,
+      createdAt: servers.createdAt,
+      joinedAt: serverMembers.joinedAt,
+      role: serverMembers.role
+    })
+    .from(serverMembers)
+    .innerJoin(servers, eq(serverMembers.serverId, servers.id))
+    .where(eq(serverMembers.userId, userId));
+
   return userServers;
 };
 

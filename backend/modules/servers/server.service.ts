@@ -14,18 +14,20 @@ export const createServerService = async ({
   name,
   avatar,
   userId,
+  description
 }: {
   name: string;
   avatar?: string;
   userId: string;
   role?: string;
+  description?: string
 }) => {
   const isExist = await findServer({ name });
 
   if (isExist) {
     throw new Error("Server with this name already exists");
   }
-  return createServer({ name, avatar, userId });
+  return createServer({ name, avatar, userId, description });
 };
 
 export const joinServerService = async ({

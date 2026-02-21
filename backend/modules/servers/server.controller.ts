@@ -8,13 +8,13 @@ import {
 import { createServerSchema } from "./server.schema.js";
 export async function createServerController(req: Request, res: Response) {
   try {
-    const { name, avatar } = req.body;
+    const { name, avatar, description } = req.body;
     const userId = req.user.id;
 
     if (!name) {
       throw new Error("Server name is required");
     }
-    const safeData = createServerSchema.parse({ name, avatar, userId });
+    const safeData = createServerSchema.parse({ name, avatar, userId, description });
 
     const server = await createServerService(safeData);
 
