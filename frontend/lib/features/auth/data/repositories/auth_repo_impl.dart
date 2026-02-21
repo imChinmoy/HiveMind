@@ -10,7 +10,6 @@ class AuthRepoImpl implements AuthRepo {
   AuthRepoImpl({required this.remoteDataSource, required this.localDataSource});
 
   @override
-  @override
   Future<Either<String, UserModel>> login({
     required String email,
     required String password,

@@ -37,7 +37,7 @@ class MainNavigationScreen extends StatelessWidget {
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
         stateManagement: true,
-        backgroundColor: const Color.fromARGB(84, 10, 10, 10),
+        backgroundColor: const Color.fromARGB(196, 10, 10, 10),
         navBarHeight: 75,
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
         padding: const EdgeInsets.all(16),

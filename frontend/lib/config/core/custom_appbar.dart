@@ -16,16 +16,23 @@ class CustomAppbar extends StatelessWidget {
       expandedHeight: 150,
       collapsedHeight: 100,
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      shape: Border(
+        bottom: BorderSide(
+          color: AppColors.primary,
+      
+        ),
+
+      ),
       elevation: 1,
       centerTitle: true,
-      leading: Builder(
-        builder: (context) => IconButton(
-          icon: const Icon(Icons.menu),
-          iconSize: 24,
-          padding: EdgeInsets.zero,
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-      ),
+      // leading: Builder(
+      //   builder: (context) => IconButton(
+      //     icon: const Icon(Icons.menu),
+      //     iconSize: 24,
+      //     padding: EdgeInsets.zero,
+      //     onPressed: () => Scaffold.of(context).openDrawer(),
+      //   ),
+      // ),
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         titlePadding: const EdgeInsets.only(left: 0, right: 0, bottom: 30),

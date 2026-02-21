@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/config/routes/app_router.dart';
 import 'package:frontend/config/themes/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/main_navigation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {

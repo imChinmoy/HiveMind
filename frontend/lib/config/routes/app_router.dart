@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/auth/presentation/screens/login_screen.dart';
 import 'package:frontend/features/auth/presentation/screens/signup_screen.dart';
 import 'package:frontend/features/home/presentation/screens/home_screen.dart';
+import 'package:frontend/features/server/presentation/screens/add_server_screen.dart';
 import 'package:frontend/main_navigation.dart';
 import 'package:frontend/features/profile/presentation/screens/profile_screen.dart';
 import 'package:frontend/splash_screen.dart';
@@ -27,6 +28,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/main-navigation',
         builder: (context, state) => const MainNavigationScreen(),
       ),
+      GoRoute(path: '/add-server',
+      builder: (context, state) => const AddServerScreen()
+      )
     ],
   );
 });

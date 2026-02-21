@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/config/core/custom_loader.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -27,7 +28,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
+            ? const CustomLoader()
             : Text(
                 text,
                 style: const TextStyle(

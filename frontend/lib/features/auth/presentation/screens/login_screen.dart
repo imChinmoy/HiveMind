@@ -65,11 +65,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) return 'Password cannot be empty';
     if (value.length < 8) return 'Password must be at least 8 characters';
-    final numberRegex = RegExp(r'\d');
-    final letterRegex = RegExp(r'[A-Za-z]');
-    if (!numberRegex.hasMatch(value) || !letterRegex.hasMatch(value)) {
-      return 'Password must contain letters and numbers';
-    }
+    
     return null;
   }
 

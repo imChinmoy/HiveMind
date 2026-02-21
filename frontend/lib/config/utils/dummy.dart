@@ -15,197 +15,81 @@ class DummyUtils {
 
 
 
-final List<Map<String, dynamic>> dummyServers = [
+final List<Map<String, dynamic>> dummyServers =
+[
   {
-    "id": "srv_001",
-    "name": "Dev Lounge",
-    "icon": "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
-    "isLive": true,
-    "liveTitle": "Live Flutter Coding",
-    "viewerCount": 128,
-    "channels": [
-      {"id": "ch_001", "name": "general"},
-      {"id": "ch_002", "name": "flutter"},
-      {"id": "ch_003", "name": "backend"},
-      {"id": "ch_004", "name": "announcements"},
-    ],
-    "members": [
-      {
-        "id": "u1",
-        "username": "Chinmoy",
-        "avatar": "https://i.pravatar.cc/150?img=1",
-        "status": "online",
-      },
-      {
-        "id": "u2",
-        "username": "Aarav",
-        "avatar": "https://i.pravatar.cc/150?img=2",
-        "status": "offline",
-      },
-      {
-        "id": "u3",
-        "username": "Riya",
-        "avatar": "https://i.pravatar.cc/150?img=3",
-        "status": "online",
-      },
-    ],
+    "id": "1f3a9c10-2c4e-4d6b-8a21-9a7e1b2c0001",
+    "name": "HiveMind Devs",
+    "avatar": "https://i.pravatar.cc/300?img=1",
+    "description": "A community for passionate Flutter and backend developers.",
+    "owner": "user-001",
+    "createdAt": "2026-01-10T12:30:00.000Z",
+    "joinedAt": "2026-01-11T09:00:00.000Z"
   },
   {
-    "id": "srv_002",
-    "name": "Campus Hub",
-    "icon": "https://cdn-icons-png.flaticon.com/512/1995/1995574.png",
-    "isLive": false,
-    "liveTitle": null,
-    "viewerCount": 0,
-    "channels": [
-      {"id": "ch_005", "name": "general"},
-      {"id": "ch_006", "name": "events"},
-      {"id": "ch_007", "name": "placements"},
-    ],
-    "members": [
-      {
-        "id": "u4",
-        "username": "Rahul",
-        "avatar": "https://i.pravatar.cc/150?img=4",
-        "status": "online",
-      },
-      {
-        "id": "u5",
-        "username": "Sneha",
-        "avatar": "https://i.pravatar.cc/150?img=5",
-        "status": "offline",
-      },
-    ],
+    "id": "2b7c8d21-3e5f-4a7b-9c32-1b8e2d3f0002",
+    "name": "Design Circle",
+    "avatar": "https://i.pravatar.cc/300?img=5",
+    "description": "UI/UX designers sharing ideas and feedback.",
+    "owner": "user-002",
+    "createdAt": "2026-01-05T15:45:00.000Z",
+    "joinedAt": "2026-01-06T10:15:00.000Z"
   },
   {
-    "id": "srv_003",
+    "id": "3c9d0e32-4f6a-4b8c-a543-2c9f3e4a0003",
+    "name": "Startup Lounge",
+    "avatar": "https://i.pravatar.cc/300?img=8",
+    "description": "Founders, builders, and dreamers discussing startups.",
+    "owner": "user-003",
+    "createdAt": "2025-12-20T08:00:00.000Z",
+    "joinedAt": "2025-12-21T14:30:00.000Z"
+  },
+  {
+    "id": "4d0e1f43-5a7b-4c9d-b654-3d0a4f5b0004",
     "name": "Gaming Arena",
-    "icon": "https://cdn-icons-png.flaticon.com/512/3612/3612569.png",
-    "isLive": true,
-    "liveTitle": "Valorant Night",
-    "viewerCount": 342,
-    "channels": [
-      {"id": "ch_008", "name": "general"},
-      {"id": "ch_009", "name": "valorant"},
-      {"id": "ch_010", "name": "clips"},
-    ],
-    "members": [
-      {
-        "id": "u6",
-        "username": "ShadowX",
-        "avatar": "https://i.pravatar.cc/150?img=6",
-        "status": "online",
-      },
-      {
-        "id": "u7",
-        "username": "Nova",
-        "avatar": "https://i.pravatar.cc/150?img=7",
-        "status": "online",
-      },
-      {
-        "id": "u8",
-        "username": "Pixel",
-        "avatar": "https://i.pravatar.cc/150?img=8",
-        "status": "offline",
-      },
-    ],
+    "avatar": "https://i.pravatar.cc/300?img=12",
+    "description": "Daily gaming sessions and tournaments.",
+    "owner": "user-004",
+    "createdAt": "2026-02-01T18:20:00.000Z",
+    "joinedAt": "2026-02-02T11:10:00.000Z"
   },
   {
-    "id": "srv_001",
-    "name": "Dev Lounge",
-    "icon": "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
-    "isLive": true,
-    "liveTitle": "Live Flutter Coding",
-    "viewerCount": 128,
-    "channels": [
-      {"id": "ch_001", "name": "general"},
-      {"id": "ch_002", "name": "flutter"},
-      {"id": "ch_003", "name": "backend"},
-      {"id": "ch_004", "name": "announcements"},
-    ],
-    "members": [
-      {
-        "id": "u4",
-        "username": "Chinmoy",
-        "avatar": "https://i.pravatar.cc/150?img=1",
-        "status": "online",
-      },
-      {
-        "id": "u2",
-        "username": "Aarav",
-        "avatar": "https://i.pravatar.cc/150?img=2",
-        "status": "offline",
-      },
-      {
-        "id": "u3",
-        "username": "Riya",
-        "avatar": "https://i.pravatar.cc/150?img=3",
-        "status": "online",
-      },
-    ],
+    "id": "5e1f2a54-6b8c-4dab-c765-4e1b5a6c0005",
+    "name": "AI Enthusiasts",
+    "avatar": "https://i.pravatar.cc/300?img=15",
+    "description": "Exploring machine learning and artificial intelligence.",
+    "owner": "user-005",
+    "createdAt": "2026-01-18T10:00:00.000Z",
+    "joinedAt": "2026-01-19T09:45:00.000Z"
   },
   {
-    "id": "srv_005",
-    "name": "Campus Hub",
-    "icon": "https://cdn-icons-png.flaticon.com/512/1995/1995574.png",
-    "isLive": false,
-    "liveTitle": null,
-    "viewerCount": 0,
-    "channels": [
-      {"id": "ch_005", "name": "general"},
-      {"id": "ch_006", "name": "events"},
-      {"id": "ch_007", "name": "placements"},
-    ],
-    "members": [
-      {
-        "id": "u4",
-        "username": "Rahul",
-        "avatar": "https://i.pravatar.cc/150?img=4",
-        "status": "online",
-      },
-      {
-        "id": "u5",
-        "username": "Sneha",
-        "avatar": "https://i.pravatar.cc/150?img=5",
-        "status": "offline",
-      },
-    ],
+    "id": "6f2a3b65-7c9d-4ebc-d876-5f2c6b7d0006",
+    "name": "Music Vibes",
+    "avatar": "https://i.pravatar.cc/300?img=20",
+    "description": "Share your favorite playlists and discover new music.",
+    "owner": "user-006",
+    "createdAt": "2025-12-01T13:10:00.000Z",
+    "joinedAt": "2025-12-02T16:00:00.000Z"
   },
   {
-    "id": "srv_006",
-    "name": "Gaming Arena",
-    "icon": "https://cdn-icons-png.flaticon.com/512/3612/3612569.png",
-    "isLive": true,
-    "liveTitle": "Valorant Night",
-    "viewerCount": 342,
-    "channels": [
-      {"id": "ch_008", "name": "general"},
-      {"id": "ch_009", "name": "valorant"},
-      {"id": "ch_010", "name": "clips"},
-    ],
-    "members": [
-      {
-        "id": "u6",
-        "username": "ShadowX",
-        "avatar": "https://i.pravatar.cc/150?img=6",
-        "status": "online",
-      },
-      {
-        "id": "u7",
-        "username": "Nova",
-        "avatar": "https://i.pravatar.cc/150?img=7",
-        "status": "online",
-      },
-      {
-        "id": "u8",
-        "username": "Pixel",
-        "avatar": "https://i.pravatar.cc/150?img=8",
-        "status": "offline",
-      },
-    ],
+    "id": "7a3b4c76-8d0e-4fcd-e987-6a3d7c8e0007",
+    "name": "Cyber Security Hub",
+    "avatar": "https://i.pravatar.cc/300?img=25",
+    "description": "Discussing ethical hacking and cyber defense.",
+    "owner": "user-007",
+    "createdAt": "2026-02-05T09:30:00.000Z",
+    "joinedAt": "2026-02-06T12:00:00.000Z"
   },
+  {
+    "id": "8b4c5d87-9e1f-4ade-f098-7b4e8d9f0008",
+    "name": "Book Club",
+    "avatar": "https://i.pravatar.cc/300?img=30",
+    "description": "Monthly book discussions and recommendations.",
+    "owner": "user-008",
+    "createdAt": "2025-11-15T17:00:00.000Z",
+    "joinedAt": "2025-11-16T18:30:00.000Z"
+  }
 ];
-
 
 final List<Map<String, dynamic>> dummyChannels = [
   {

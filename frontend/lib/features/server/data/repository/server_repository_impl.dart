@@ -33,6 +33,13 @@ class ServerRepositoryImpl implements ServerRepository {
   }
 
   @override
+  Future<Either<String, List<ServerEntity>>> getMyServers() async {
+    final result = await remoteDatasource.getMyServers();
+
+    return result;
+  }
+
+  @override
   Future<Either<String, ServerEntity>> joinServer({
     required String serverId,
     required String serverName,

@@ -7,6 +7,7 @@ import 'package:frontend/config/utils/dummy.dart';
 import 'package:frontend/features/home/presentation/widgets/avatar_widget.dart';
 import 'package:frontend/features/home/presentation/widgets/channel_card_widget.dart';
 import 'package:frontend/features/profile/presentation/screens/profile_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeShell extends StatefulWidget {
   const HomeShell({Key? key}) : super(key: key);
@@ -19,37 +20,43 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
       drawer: _buildDrawer(),
-      body: CustomScrollView(
-        slivers: [
-          CustomAppbar(p1title: "Hive", p2title: "Mind"),
-          _buildServerRail(),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            sliver: _buildExplore(),
-          ),
-        ],
+      body: Container(
+        decoration: AppGradients.appBackground,
+        child: CustomScrollView(
+          slivers: [
+            CustomAppbar(p1title: "Hive", p2title: "Mind"),
+            _buildServerRail(),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              sliver: _buildExplore(),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-
 SliverToBoxAdapter _buildServerRail() {
   return SliverToBoxAdapter(
-    child: Container(
+    child: SizedBox(
       height: 120,
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(width: 12),
-          _AddServerButton(),
+
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: _AddServerButton(),
+          ),
+
           Expanded(
             child: Padding(
-              padding: EdgeInsetsGeometry.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: 12,
                 vertical: 20,
               ),
@@ -61,7 +68,6 @@ SliverToBoxAdapter _buildServerRail() {
     ),
   );
 }
-
 Widget _serversListView() {
   final servers = DummyUtils.getServers();
 
@@ -75,14 +81,13 @@ Widget _serversListView() {
 
       return AvatarWidget(
         name: server['name'],
-        avatarUrl: server['icon'],
-        isOnline: server['isLive'],
+        avatarUrl: server['avatar'],
+        isOnline: true,
         size: 56,
       );
     },
   );
 }
-
 class _AddServerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -93,7 +98,9 @@ class _AddServerButton extends StatelessWidget {
         color: AppColors.surface,
         border: Border.all(color: AppColors.divider),
       ),
-      child: const Icon(Icons.add, color: AppColors.primary, size: 32),
+      child: GestureDetector(
+        onTap: () => context.push('/add-server'),
+        child: const Icon(Icons.add, color: AppColors.primary, size: 32)),
     );
   }
 }

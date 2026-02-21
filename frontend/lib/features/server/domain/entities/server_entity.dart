@@ -4,7 +4,8 @@ class ServerEntity {
   final String avatar;
   final String description;
   final String ownerId;
-  final DateTime createdAt;
+  final DateTime? createdAt;
+  final DateTime? joinedAt;
 
   ServerEntity({
     required this.id,
@@ -12,7 +13,8 @@ class ServerEntity {
     required this.avatar,
     required this.description,
     required this.ownerId,
-    required this.createdAt,
+    this.createdAt, 
+    this.joinedAt,
   });
 
   ServerEntity copyWith({

@@ -10,6 +10,7 @@ abstract class ServerRepository {
   });
 
   Future<Either<String, List<ServerEntity>>> getServers();
+  Future<Either<String, List<ServerEntity>>> getMyServers();
 
   Future<Either<String, ServerEntity>> joinServer({
     required String serverId,

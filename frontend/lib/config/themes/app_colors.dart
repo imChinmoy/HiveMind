@@ -62,9 +62,22 @@ class AppGradients {
   static const RadialGradient avatarGradient = RadialGradient(
     colors: [
       Color.fromARGB(255, 72, 90, 190),
-      Color.fromARGB(255, 0, 0, 0),
+      Color.fromARGB(137, 0, 0, 0),
     ],
-    center: Alignment.bottomRight,
-    radius: 2.3,
+    center: Alignment.topLeft,
+    radius: 1.5,
   );
+  static const appBackground = BoxDecoration(
+  color: AppColors.background,
+  gradient: RadialGradient(
+    center: Alignment(-0.8, .7),
+    radius: 1.25,
+    colors: [
+      Color(0x1A5865F2),
+      Color(0x0D5865F2),
+      Color(0xFF0F1014),
+    ],
+    stops: [0.0, 0.3, 1.0],
+  ),
+);
 }
