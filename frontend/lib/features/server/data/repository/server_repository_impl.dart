@@ -26,8 +26,11 @@ class ServerRepositoryImpl implements ServerRepository {
   }
 
   @override
-  Future<Either<String, List<ServerEntity>>> getServers() async {
-    final result = await remoteDatasource.getServers();
+  Future<Either<String, List<ServerEntity>>> getServers({
+    required int limit,
+    required int offset,
+  }) async {
+    final result = await remoteDatasource.exploreServers(limit: limit, offset: offset);
 
     return result;
   }

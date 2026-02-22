@@ -6,7 +6,7 @@ import 'package:frontend/config/core/custom_appbar.dart';
 import 'package:frontend/config/core/custom_loader.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 import 'package:frontend/config/themes/app_textstyle.dart';
-import 'package:frontend/features/server/presentation/state/server_notifier.dart';
+import 'package:frontend/features/server/presentation/state/myserver_notifier.dart';
 import 'package:frontend/features/server/presentation/widgets/server_tile.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
@@ -117,6 +117,7 @@ class MyServersScreen extends ConsumerWidget {
                           name: server.name,
                           avatar: server.avatar,
                           description: server.description,
+                          onTap: () => context.push('/server/${server.id}'),
                         ),
                       );
                     }, childCount: myServers.length),
@@ -170,6 +171,7 @@ class MyServersScreen extends ConsumerWidget {
                           name: server.name,
                           avatar: server.avatar,
                           description: server.description,
+                          onTap: () => context.push('/server/${server.id}'),
                         ),
                       );
                     }, childCount: joinedServers.length),

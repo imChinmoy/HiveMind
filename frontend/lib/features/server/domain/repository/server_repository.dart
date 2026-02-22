@@ -9,7 +9,10 @@ abstract class ServerRepository {
     required File avatar,
   });
 
-  Future<Either<String, List<ServerEntity>>> getServers();
+  Future<Either<String, List<ServerEntity>>> getServers({
+    required int limit,
+    required int offset,
+  });
   Future<Either<String, List<ServerEntity>>> getMyServers();
 
   Future<Either<String, ServerEntity>> joinServer({

@@ -24,7 +24,10 @@ abstract class RemoteDatasource {
     required File avatar,
   });
 
-  Future<Either<String, List<ServerModel>>> getServers();
+  Future<Either<String, List<ServerModel>>> exploreServers({
+    required int limit,
+    required int offset,
+  });
 }
 
 class RemoteDataSourceImpl implements RemoteDatasource {
@@ -39,7 +42,7 @@ class RemoteDataSourceImpl implements RemoteDatasource {
 
       final List data = response.data;
       final servers = data.map((e) => ServerModel.fromJson(e)).toList();
-      
+
       return Right(servers);
     } on DioException catch (e) {
       return Left(_handleError(e));
@@ -49,16 +52,21 @@ class RemoteDataSourceImpl implements RemoteDatasource {
   }
 
   @override
-  Future<Either<String, List<ServerModel>>> getServers() async {
-    try{
-      final response = await networkService.dio.get(AppEndpoints.getServers);
+  Future<Either<String, List<ServerModel>>> exploreServers({
+    required int limit,
+    required int offset,
+  }) async {
+    try {
+      final response = await networkService.dio.get(
+        AppEndpoints.getServers,
+        queryParameters: {"limit": limit, "offset": offset},
+      );
 
       final List data = response.data;
       final servers = data.map((e) => ServerModel.fromJson(e)).toList();
 
       return Right(servers);
-
-    }catch(e){
+    } catch (e) {
       return Left(e.toString());
     }
   }

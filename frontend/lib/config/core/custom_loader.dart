@@ -10,7 +10,7 @@ class CustomLoader extends StatelessWidget {
     return Container(
       child: LoadingAnimationWidget.inkDrop(
         color: AppColors.primary,
-        size: 50
+        size: 40
     ),
     );
   }

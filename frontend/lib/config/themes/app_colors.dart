@@ -59,14 +59,26 @@ class AppGradients {
     end: Alignment.bottomCenter,
   );
 
-  static const RadialGradient avatarGradient = RadialGradient(
+  static const LinearGradient avatarGradient = LinearGradient(
     colors: [
       Color.fromARGB(255, 72, 90, 190),
       Color.fromARGB(137, 0, 0, 0),
     ],
-    center: Alignment.topLeft,
-    radius: 1.5,
+    tileMode: TileMode.decal,
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
   );
+
+  static const RadialGradient cardGradient = RadialGradient(
+    colors: [
+      Color.fromARGB(126, 89, 98, 148),
+      Color.fromARGB(137, 0, 0, 0),
+    ],
+    center: Alignment.topRight,
+    radius: 1.12,
+  );  
+
+
   static const appBackground = BoxDecoration(
   color: AppColors.background,
   gradient: RadialGradient(
