@@ -1,6 +1,6 @@
 import { serverMembers, servers } from "../../core/db/schema/serverSchema.js";
 import { db } from "../../core/db/drizzle.js";
-import { and, eq, or } from "drizzle-orm";
+import { and, eq, not, isNull } from "drizzle-orm";
 
 export const createServer = async ({
   name,
@@ -47,6 +47,40 @@ export const ownerServers = async (userId: string) => {
     .where(eq(serverMembers.userId, userId));
 
   return userServers;
+};
+
+export const topServers = async (
+  userId: string,
+  limit: number,
+  offset: number
+) => {
+  const result = await db
+    .select({
+      id: servers.id,
+      name: servers.name,
+      avatar: servers.avatar,
+      description: servers.description,
+      owner: servers.owner,
+      createdAt: servers.createdAt,
+    })
+    .from(servers)
+    .leftJoin(
+      serverMembers,
+      and(
+        eq(serverMembers.serverId, servers.id),
+        eq(serverMembers.userId, userId)
+      )
+    )
+    .where(
+      and(
+        isNull(serverMembers.userId),
+        not(eq(servers.owner, userId))
+      )
+    )
+    .limit(limit)
+    .offset(offset);
+
+  return result;
 };
 
 export const findServer = async ({ name }: { name: string }) => {

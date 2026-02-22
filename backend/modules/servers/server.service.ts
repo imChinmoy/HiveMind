@@ -4,10 +4,19 @@ import {
   findServer,
   leaveServer,
   ownerServers,
+  topServers
 } from "./server.repository.js";
 
 export const listUserServersService = async (userId: string) => {
   return ownerServers(userId);
+};
+
+export const listTopServersService = async (
+  userId: string,
+  limit: number,
+  offset: number
+) => {
+  return topServers(userId, limit, offset);
 };
 
 export const createServerService = async ({
