@@ -4,9 +4,10 @@ import 'package:frontend/config/core/custom_loader.dart';
 import 'package:frontend/config/themes/app_colors.dart';
 import 'package:frontend/features/server/domain/entities/server_entity.dart';
 import 'package:frontend/features/server/presentation/state/explore_notifier.dart';
+import 'package:frontend/features/server/presentation/widgets/serach_bar.dart';
 import 'package:frontend/features/server/presentation/widgets/server_card.dart';
 
-class ServerList extends StatelessWidget {
+class ServerList extends StatefulWidget {
   final List<ServerEntity> servers;
   final ScrollController scrollController;
   final ExploreServersNotifier notifier;
@@ -19,26 +20,41 @@ class ServerList extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ServerList> createState() => _ServerListState();
+}
+
+class _ServerListState extends State<ServerList> {
+  final searchController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: AppGradients.appBackground,
       child: CustomScrollView(
-        controller: scrollController,
+        controller: widget.scrollController,
         physics: const BouncingScrollPhysics(),
         slivers: [
           const CustomAppbar(p1title: 'Add', p2title: 'Server'),
-
+          SliverSearchBar(
+            controller: searchController,
+            onChanged: (value) {
+              print(value);
+            },
+          ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => ServerCard(server: servers[index], index: index),
-                childCount: servers.length,
+                (context, index) =>
+                    ServerCard(server: widget.servers[index], index: index),
+                childCount: widget.servers.length,
               ),
             ),
           ),
 
-          SliverToBoxAdapter(child: _PaginationFooter(notifier: notifier)),
+          SliverToBoxAdapter(
+            child: _PaginationFooter(notifier: widget.notifier),
+          ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],

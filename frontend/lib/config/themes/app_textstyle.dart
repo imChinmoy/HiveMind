@@ -10,6 +10,13 @@ class AppTextStyles {
     fontFamily: 'Hunters K-Pop',
   );
 
+  static const TextStyle appbarHeading = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: Color.fromARGB(255, 119, 134, 195),
+    letterSpacing: 1.2
+  );
+
   static const TextStyle channelTitle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,

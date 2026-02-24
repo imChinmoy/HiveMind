@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/config/themes/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateServerButton extends StatelessWidget {
   const CreateServerButton({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class CreateServerButton extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           HapticFeedback.mediumImpact();
-          // TODO: open create server modal
+          context.push('/add-server');
         },
         child: Container(
           height: 50,
