@@ -9,7 +9,8 @@ import {
 import { createServerSchema } from "./server.schema.js";
 export async function createServerController(req: Request, res: Response) {
   try {
-    const { name, avatar, description } = req.body;
+    const { name, description } = req.body;
+    const avatar = req.file?.path;
     const userId = req.user.id;
 
     if (!name) {
@@ -23,7 +24,6 @@ export async function createServerController(req: Request, res: Response) {
     });
 
     const server = await createServerService(safeData);
-
     res.json(server);
   } catch (error: any) {
     res.status(400).json({ message: error.message });
