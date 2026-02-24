@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:frontend/config/constants/app_constants.dart';
@@ -120,11 +121,13 @@ class RemoteDataSourceImpl implements RemoteDatasource {
         'description': description,
         'avatar': await MultipartFile.fromFile(avatar.path),
       });
+      log(formData.fields.toString());
 
       final response = await networkService.dio.post(
         AppEndpoints.createServer,
         data: formData,
       );
+      log(response.data.toString());
 
       return Right(ServerModel.fromJson(response.data));
     } on DioException catch (e) {

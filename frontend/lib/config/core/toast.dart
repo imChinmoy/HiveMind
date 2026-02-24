@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/config/themes/app_colors.dart';
 import 'package:toastification/toastification.dart';
 
 class ToastHelper {
@@ -12,8 +13,8 @@ class ToastHelper {
       description: Text(message),
       alignment: Alignment.bottomCenter,
       icon: const Icon(Icons.check_circle_outline),
-      primaryColor: Colors.green,
-      backgroundColor: Colors.white,
+      primaryColor: Colors.white,
+      backgroundColor: AppColors.primarySoft,
       foregroundColor: Colors.black,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       borderRadius: BorderRadius.circular(12),

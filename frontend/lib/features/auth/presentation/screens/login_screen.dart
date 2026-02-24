@@ -6,7 +6,7 @@ import 'package:frontend/features/auth/domain/entities/auth_state.dart';
 import 'package:frontend/features/auth/presentation/state/provider.dart';
 import 'package:frontend/features/auth/presentation/widgets/button.dart';
 import 'package:frontend/features/auth/presentation/widgets/social_button.dart';
-import 'package:frontend/features/auth/presentation/widgets/custom_textfield.dart';
+import 'package:frontend/config/core/custom_textfield.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {

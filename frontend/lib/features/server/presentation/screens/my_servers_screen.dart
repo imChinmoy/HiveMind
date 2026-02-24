@@ -32,153 +32,156 @@ class MyServersScreen extends ConsumerWidget {
 
           return Container(
             decoration: AppGradients.appBackground,
-            child: CustomScrollView(
-              slivers: [
-                const CustomAppbar(p1title: "Hive", p2title: "Servers"),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: Row(
-                      children: [
-                        Text(
-                          "Hello , ${user['username']}",
-                          style: AppTextStyles.heading,
-                        ),
-                        const Spacer(),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.surface,
-                            border: Border.all(color: AppColors.divider),
+            child: RefreshIndicator(
+              onRefresh: () => ref.read(serverNotifierProvider.notifier).refresh(),
+              child: CustomScrollView(
+                slivers: [
+                  const CustomAppbar(p1title: "Hive", p2title: "Servers"),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Row(
+                        children: [
+                          Text(
+                            "Hello , ${user['username']}",
+                            style: AppTextStyles.heading,
                           ),
-                          child: GestureDetector(
-                            onTap: () => context.push('/add-server'),
-                            child: const Icon(
-                              Icons.add_business,
-                              color: AppColors.primary,
-                              size: 24,
+                          const Spacer(),
+                          Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.surface,
+                              border: Border.all(color: AppColors.divider),
+                            ),
+                            child: GestureDetector(
+                              onTap: () => context.push('/explore-servers'),
+                              child: const Icon(
+                                Icons.add_business,
+                                color: AppColors.primary,
+                                size: 24,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  sliver: const SliverToBoxAdapter(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.divider,
-                            thickness: 1,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            "My Servers",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    sliver: const SliverToBoxAdapter(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.divider,
+                              thickness: 1,
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.divider,
-                            thickness: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final server = myServers[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: ServerTile(
-                          name: server.name,
-                          avatar: server.avatar,
-                          description: server.description,
-                          onTap: () => context.push('/server/${server.id}'),
-                        ),
-                      );
-                    }, childCount: myServers.length),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  sliver: const SliverToBoxAdapter(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.divider,
-                            thickness: 1,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            "Joined Servers",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              "My Servers",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.divider,
-                            thickness: 1,
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.divider,
+                              thickness: 1,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final server = myServers[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: ServerTile(
+                            name: server.name,
+                            avatar: server.avatar,
+                            description: server.description,
+                            onTap: () => context.push('/server/${server.id}'),
+                          ),
+                        );
+                      }, childCount: myServers.length),
+                    ),
                   ),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final server = joinedServers[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: ServerTile(
-                          name: server.name,
-                          avatar: server.avatar,
-                          description: server.description,
-                          onTap: () => context.push('/server/${server.id}'),
-                        ),
-                      );
-                    }, childCount: joinedServers.length),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    sliver: const SliverToBoxAdapter(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.divider,
+                              thickness: 1,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: Text(
+                              "Joined Servers",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: AppColors.divider,
+                              thickness: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
-              ],
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final server = joinedServers[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: ServerTile(
+                            name: server.name,
+                            avatar: server.avatar,
+                            description: server.description,
+                            onTap: () => context.push('/server/${server.id}'),
+                          ),
+                        );
+                      }, childCount: joinedServers.length),
+                    ),
+                  ),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 80)),
+                ],
+              ),
             ),
           );
         },

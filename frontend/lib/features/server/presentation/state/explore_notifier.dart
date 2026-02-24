@@ -79,6 +79,12 @@ class ExploreServersNotifier extends AutoDisposeAsyncNotifier<List<ServerEntity>
     state = await AsyncValue.guard(() => _fetch(offset: 0));
   }
 
+  // Future<List<ServerEntity?>> search() async {
+  //   final repo = ref.read(serverRepositoryProvider);
+  //   final result = await repo.searchServers();
+  //   return result.fold((e) => throw Exception(e), (data) => data);
+  // }
+
   Future<void> joinServer({
     required String serverId,
     required String serverName,
