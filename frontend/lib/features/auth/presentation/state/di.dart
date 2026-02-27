@@ -1,12 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/config/core/secure_storage_service.dart';
 import 'package:frontend/config/network/dio_confg.dart';
 import 'package:frontend/features/auth/data/api/local_datasource.dart';
 import 'package:frontend/features/auth/data/api/remote_datasource.dart';
 import 'package:frontend/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:frontend/features/auth/domain/repositories/auth_repo.dart';
 
+final secureStorageProvider = Provider<SecureStorageService>((ref) {
+  return SecureStorageService();
+});
+
 final localDatasourceProvider = Provider<LocalDatasource>((ref) {
-  return LocalDatasourceImpl();
+  final secureStorage = ref.read(secureStorageProvider);
+  return LocalDatasourceImpl(secureStorage: secureStorage);
 });
 
 final networkServiceProvider = Provider<NetworkService>((ref) {

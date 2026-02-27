@@ -64,7 +64,9 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  void logout() {}
+  Future<void> logout() async {
+    await localDataSource.clearAll();
+  }
 
   @override
   Future<Either<String, UserModel>> getCachedUser() async {

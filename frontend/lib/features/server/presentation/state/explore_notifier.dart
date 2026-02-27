@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/server/domain/entities/server_entity.dart';
 import 'package:frontend/features/server/presentation/state/server_provider.dart';
 
-
 final exploreServersProvider =
     AsyncNotifierProvider.autoDispose<ExploreServersNotifier, List<ServerEntity>>(
   ExploreServersNotifier.new,
@@ -27,6 +26,17 @@ class ExploreServersNotifier extends AutoDisposeAsyncNotifier<List<ServerEntity>
     _hasMore = true;
     _isFetching = false;
 
+    
+    final repo = ref.read(serverRepositoryProvider);
+    final cached = await repo.getCachedExploreServers();
+
+    if (cached.isNotEmpty) {
+      log('Loaded ${cached.length} explore servers from cache',
+          name: 'ExploreNotifier');
+      Future.microtask(() => _refreshInBackground());
+      return cached;
+    }
+
     return _fetch(offset: 0);
   }
 
@@ -43,6 +53,16 @@ class ExploreServersNotifier extends AutoDisposeAsyncNotifier<List<ServerEntity>
         return data;
       },
     );
+  }
+
+  Future<void> _refreshInBackground() async {
+    try {
+      final freshData = await _fetch(offset: 0);
+      state = AsyncData(freshData);
+      log('Background refresh complete', name: 'ExploreNotifier');
+    } catch (e) {
+      log('Background refresh failed: $e', name: 'ExploreNotifier');
+    }
   }
 
   Future<void> loadMore() async {
@@ -78,12 +98,6 @@ class ExploreServersNotifier extends AutoDisposeAsyncNotifier<List<ServerEntity>
 
     state = await AsyncValue.guard(() => _fetch(offset: 0));
   }
-
-  // Future<List<ServerEntity?>> search() async {
-  //   final repo = ref.read(serverRepositoryProvider);
-  //   final result = await repo.searchServers();
-  //   return result.fold((e) => throw Exception(e), (data) => data);
-  // }
 
   Future<void> joinServer({
     required String serverId,
