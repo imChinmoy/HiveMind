@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:frontend/config/routes/app_router.dart';
 import 'package:frontend/config/themes/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/main_navigation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  
   await Hive.initFlutter();
   await Hive.openBox('user');
+  await Hive.openBox('myServers');
+  await Hive.openBox('exploreServers');
 
   runApp(const ProviderScope(child: HiveMindApp()));
 }
@@ -25,11 +28,5 @@ class HiveMindApp extends ConsumerWidget {
       theme: AppTheme.darkTheme,
       routerConfig: router,
     );
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   theme: AppTheme.darkTheme,
-    //   home: MainNavigationScreen(),
-    // );
   }
 }

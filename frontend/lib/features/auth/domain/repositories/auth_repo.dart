@@ -15,7 +15,7 @@ abstract class AuthRepo {
 
   Future<Either<String, UserEntity>> getCachedUser();
 
-  void logout();
+  Future<void> logout();
   // Future<Either<String, UserEntity>> getUserById({required String id});  
 
 }

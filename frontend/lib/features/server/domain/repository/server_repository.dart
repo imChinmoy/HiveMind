@@ -13,6 +13,7 @@ abstract class ServerRepository {
     required int limit,
     required int offset,
   });
+
   Future<Either<String, List<ServerEntity>>> getMyServers();
 
   Future<Either<String, ServerEntity>> joinServer({
@@ -24,4 +25,8 @@ abstract class ServerRepository {
     required String serverId,
     required String userId,
   });
+
+ 
+  Future<List<ServerEntity>> getCachedMyServers();
+  Future<List<ServerEntity>> getCachedExploreServers();
 }

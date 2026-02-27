@@ -1,26 +1,11 @@
 import 'package:frontend/features/auth/domain/entities/user_entity.dart/user_entity.dart';
-import 'package:hive/hive.dart';
 
-part 'user_model.g.dart';
-
-@HiveType(typeId: 0)
 class UserModel extends UserEntity {
-  @HiveField(0)
   String id;
-
-  @HiveField(1)
   String username;
-
-  @HiveField(2)
   String email;
-
-  @HiveField(3)
   int age;
-
-  @HiveField(4)
   String? accessToken;
-
-  @HiveField(5)
   String? refreshToken;
 
   UserModel({
