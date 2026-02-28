@@ -33,7 +33,8 @@ class MyServersScreen extends ConsumerWidget {
           return Container(
             decoration: AppGradients.appBackground,
             child: RefreshIndicator(
-              onRefresh: () => ref.read(serverNotifierProvider.notifier).refresh(),
+              onRefresh: () =>
+                  ref.read(serverNotifierProvider.notifier).refresh(),
               child: CustomScrollView(
                 slivers: [
                   const CustomAppbar(p1title: "Hive", p2title: "Servers"),
@@ -119,7 +120,8 @@ class MyServersScreen extends ConsumerWidget {
                             name: server.name,
                             avatar: server.avatar,
                             description: server.description,
-                            onTap: () => context.push('/server/${server.id}'),
+                            onTap: () =>
+                                context.push('/server-detail', extra: server),
                           ),
                         );
                       }, childCount: myServers.length),
@@ -173,7 +175,8 @@ class MyServersScreen extends ConsumerWidget {
                             name: server.name,
                             avatar: server.avatar,
                             description: server.description,
-                            onTap: () => context.push('/server/${server.id}'),
+                            onTap: () =>
+                                context.push('/server-detail', extra: server),
                           ),
                         );
                       }, childCount: joinedServers.length),
@@ -191,9 +194,7 @@ class MyServersScreen extends ConsumerWidget {
             style: const TextStyle(color: AppColors.danger),
           ),
         ),
-        loading: () => const Center(
-          child: const CustomLoader()
-        ),
+        loading: () => const Center(child: const CustomLoader()),
       ),
     );
   }

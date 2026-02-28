@@ -4,6 +4,8 @@ import 'package:frontend/config/network/either.dart';
 import 'package:frontend/features/server/data/api/datasource.dart';
 import 'package:frontend/features/server/data/api/server_local_datasource.dart';
 import 'package:frontend/features/server/domain/entities/server_entity.dart';
+import 'package:frontend/features/server/domain/entities/channel_entity.dart';
+import 'package:frontend/features/server/domain/entities/message_entity.dart';
 import 'package:frontend/features/server/domain/repository/server_repository.dart';
 
 class ServerRepositoryImpl implements ServerRepository {
@@ -15,15 +17,11 @@ class ServerRepositoryImpl implements ServerRepository {
     required this.localDatasource,
   });
 
-  
   @override
   Future<Either<String, List<ServerEntity>>> getMyServers() async {
     final result = await remoteDatasource.getMyServers();
 
-    result.fold(
-      (_) {},
-      (servers) => localDatasource.cacheMyServers(servers),
-    );
+    result.fold((_) {}, (servers) => localDatasource.cacheMyServers(servers));
 
     return result;
   }
@@ -70,7 +68,6 @@ class ServerRepositoryImpl implements ServerRepository {
       avatar: avatar,
     );
 
-
     result.fold((_) {}, (_) {
       localDatasource.clearMyServersCache();
       localDatasource.clearExploreServersCache();
@@ -111,5 +108,74 @@ class ServerRepositoryImpl implements ServerRepository {
     });
 
     return result;
+  }
+
+  @override
+  Future<Either<String, List<ChannelEntity>>> getChannels({
+    required String serverId,
+    required String serverName,
+  }) async {
+    final result = await remoteDatasource.getChannels(
+      serverId: serverId,
+      serverName: serverName,
+    );
+
+    result.fold(
+      (_) {},
+      (channels) => localDatasource.cacheChannels(serverId, channels),
+    );
+
+    return result;
+  }
+
+  @override
+  Future<Either<String, ChannelEntity>> createChannel({
+    required String serverId,
+    required String name,
+    String? description,
+  }) async {
+    final result = await remoteDatasource.createChannel(
+      serverId: serverId,
+      name: name,
+      description: description,
+    );
+
+    result.fold((_) {}, (_) {
+      localDatasource.clearChannelsCache(serverId);
+    });
+
+    return result;
+  }
+
+  @override
+  Future<Either<String, List<MessageEntity>>> getMessages({
+    required String channelId,
+    int limit = 50,
+    String? before,
+  }) async {
+    final result = await remoteDatasource.getMessages(
+      channelId: channelId,
+      limit: limit,
+      before: before,
+    );
+
+    if (before == null) {
+      result.fold(
+        (_) {},
+        (messages) => localDatasource.cacheMessages(channelId, messages),
+      );
+    }
+
+    return result;
+  }
+
+  @override
+  Future<List<ChannelEntity>> getCachedChannels(String serverId) async {
+    return await localDatasource.getCachedChannels(serverId);
+  }
+
+  @override
+  Future<List<MessageEntity>> getCachedMessages(String channelId) async {
+    return await localDatasource.getCachedMessages(channelId);
   }
 }

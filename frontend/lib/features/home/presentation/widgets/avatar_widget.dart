@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AvatarWidget extends StatelessWidget {
-  final String avatarUrl;
+  final String? avatarUrl;
   final String name;
   final bool isOnline;
   final double size;
@@ -9,7 +9,7 @@ class AvatarWidget extends StatelessWidget {
 
   const AvatarWidget({
     super.key,
-    required this.avatarUrl,
+    this.avatarUrl,
     required this.name,
     required this.isOnline,
     this.size = 50,
@@ -30,7 +30,19 @@ class AvatarWidget extends StatelessWidget {
             CircleAvatar(
               radius: size / 2,
               backgroundColor: Colors.grey.shade900,
-              backgroundImage: NetworkImage(avatarUrl),
+              backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
+                  ? NetworkImage(avatarUrl!)
+                  : null,
+              child: avatarUrl == null || avatarUrl!.isEmpty
+                  ? Text(
+                      name.isNotEmpty ? name[0].toUpperCase() : '?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: size * 0.4,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : null,
             ),
 
             Positioned(
@@ -43,10 +55,7 @@ class AvatarWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isOnline ? Colors.greenAccent : Colors.grey,
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 2,
-                  ),
+                  border: Border.all(color: Colors.black, width: 2),
                 ),
               ),
             ),

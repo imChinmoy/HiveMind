@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "npm run build && node --watch dist/app/api/server.js",
-    "start": "node dist/apps/api/server.js"
+    "start": "node dist/app/api/server.js"
   },
   "keywords": [],
   "author": "",

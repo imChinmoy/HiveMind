@@ -1,4 +1,6 @@
 import 'package:frontend/features/server/data/models/server_model.dart';
+import 'package:frontend/features/server/data/models/channel_model.dart';
+import 'package:frontend/features/server/data/models/message_model.dart';
 import 'package:hive/hive.dart';
 
 abstract class ServerLocalDatasource {
@@ -8,14 +10,24 @@ abstract class ServerLocalDatasource {
   Future<void> cacheExploreServers(List<ServerModel> servers);
   Future<List<ServerModel>> getCachedExploreServers();
 
+  Future<void> cacheChannels(String serverId, List<ChannelModel> channels);
+  Future<List<ChannelModel>> getCachedChannels(String serverId);
+
+  Future<void> cacheMessages(String channelId, List<MessageModel> messages);
+  Future<List<MessageModel>> getCachedMessages(String channelId);
+
   Future<void> clearMyServersCache();
   Future<void> clearExploreServersCache();
+  Future<void> clearChannelsCache(String serverId);
+  Future<void> clearMessagesCache(String channelId);
   Future<void> clearAll();
 }
 
 class ServerLocalDatasourceImpl implements ServerLocalDatasource {
   final Box _myServersBox = Hive.box('myServers');
   final Box _exploreServersBox = Hive.box('exploreServers');
+  final Box _channelsBox = Hive.box('channels');
+  final Box _messagesBox = Hive.box('messages');
 
   @override
   Future<void> cacheMyServers(List<ServerModel> servers) async {
@@ -35,7 +47,6 @@ class ServerLocalDatasourceImpl implements ServerLocalDatasource {
         .toList();
   }
 
- 
   @override
   Future<void> cacheExploreServers(List<ServerModel> servers) async {
     final jsonList = servers.map((s) => s.toJson()).toList();
@@ -54,7 +65,6 @@ class ServerLocalDatasourceImpl implements ServerLocalDatasource {
         .toList();
   }
 
- 
   @override
   Future<void> clearMyServersCache() async {
     await _myServersBox.clear();
@@ -66,8 +76,60 @@ class ServerLocalDatasourceImpl implements ServerLocalDatasource {
   }
 
   @override
+  Future<void> cacheChannels(
+    String serverId,
+    List<ChannelModel> channels,
+  ) async {
+    final jsonList = channels.map((c) => c.toJson()).toList();
+    await _channelsBox.put(serverId, jsonList);
+  }
+
+  @override
+  Future<List<ChannelModel>> getCachedChannels(String serverId) async {
+    final data = _channelsBox.get(serverId);
+    if (data == null) return [];
+
+    final List rawList = data;
+    return rawList
+        .map((e) => ChannelModel.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  @override
+  Future<void> cacheMessages(
+    String channelId,
+    List<MessageModel> messages,
+  ) async {
+    final jsonList = messages.map((m) => m.toJson()).toList();
+    await _messagesBox.put(channelId, jsonList);
+  }
+
+  @override
+  Future<List<MessageModel>> getCachedMessages(String channelId) async {
+    final data = _messagesBox.get(channelId);
+    if (data == null) return [];
+
+    final List rawList = data;
+    return rawList
+        .map((e) => MessageModel.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  @override
+  Future<void> clearChannelsCache(String serverId) async {
+    await _channelsBox.delete(serverId);
+  }
+
+  @override
+  Future<void> clearMessagesCache(String channelId) async {
+    await _messagesBox.delete(channelId);
+  }
+
+  @override
   Future<void> clearAll() async {
     await _myServersBox.clear();
     await _exploreServersBox.clear();
+    await _channelsBox.clear();
+    await _messagesBox.clear();
   }
 }

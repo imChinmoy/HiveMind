@@ -8,6 +8,10 @@ import 'package:frontend/main_navigation.dart';
 import 'package:frontend/features/profile/presentation/screens/profile_screen.dart';
 import 'package:frontend/splash_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/features/server/domain/entities/server_entity.dart';
+import 'package:frontend/features/server/domain/entities/channel_entity.dart';
+import 'package:frontend/features/server/presentation/screens/server_detail_screen.dart';
+import 'package:frontend/features/server/presentation/screens/chat_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -29,12 +33,27 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/main-navigation',
         builder: (context, state) => const MainNavigationScreen(),
       ),
-      GoRoute(path: '/add-server',
-      builder: (context, state) => const AddServerScreen()
+      GoRoute(
+        path: '/add-server',
+        builder: (context, state) => const AddServerScreen(),
       ),
       GoRoute(
         path: '/explore-servers',
         builder: (context, state) => const ExploreServerScreen(),
+      ),
+      GoRoute(
+        path: '/server-detail',
+        builder: (context, state) {
+          final server = state.extra as ServerEntity;
+          return ServerDetailScreen(server: server);
+        },
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) {
+          final channel = state.extra as ChannelEntity;
+          return ChatScreen(channel: channel);
+        },
       ),
     ],
   );

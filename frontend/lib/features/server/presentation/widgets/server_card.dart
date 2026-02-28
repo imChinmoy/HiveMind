@@ -9,7 +9,8 @@ class ServerCard extends ConsumerStatefulWidget {
   final ServerEntity server;
   final int index;
 
-  const ServerCard({Key? key, required this.server, required this.index}) : super(key: key);
+  const ServerCard({Key? key, required this.server, required this.index})
+    : super(key: key);
 
   @override
   ConsumerState<ServerCard> createState() => _ServerCardState();
@@ -31,7 +32,9 @@ class _ServerCardState extends ConsumerState<ServerCard>
     );
     _fade = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
     _slide = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic));
+        .animate(
+          CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic),
+        );
 
     final delay = (widget.index * 50).clamp(0, 350);
     Future.delayed(Duration(milliseconds: delay), () {
@@ -47,7 +50,20 @@ class _ServerCardState extends ConsumerState<ServerCard>
 
   String _formatDate(DateTime? date) {
     if (date == null) return 'Unknown';
-    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const m = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return '${m[date.month - 1]} ${date.day}, ${date.year}';
   }
 
@@ -55,10 +71,9 @@ class _ServerCardState extends ConsumerState<ServerCard>
     if (_isJoining) return;
     HapticFeedback.lightImpact();
     setState(() => _isJoining = true);
-    await ref.read(exploreServersProvider.notifier).joinServer(
-      serverId: widget.server.id,
-      serverName: widget.server.name,
-    );
+    await ref
+        .read(exploreServersProvider.notifier)
+        .joinServer(serverId: widget.server.id, serverName: widget.server.name);
     if (mounted) setState(() => _isJoining = false);
   }
 
@@ -71,10 +86,12 @@ class _ServerCardState extends ConsumerState<ServerCard>
         child: Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-           
             gradient: AppGradients.cardGradient,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.divider.withOpacity(0.4), width: 0.8),
+            border: Border.all(
+              color: AppColors.divider.withOpacity(0.4),
+              width: 0.8,
+            ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.12),
@@ -87,7 +104,13 @@ class _ServerCardState extends ConsumerState<ServerCard>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _CardHeader(server: widget.server, formatDate: _formatDate),
-              Divider(height: 1, thickness: 0.6, color: AppColors.divider.withOpacity(0.35), indent: 16, endIndent: 16),
+              Divider(
+                height: 1,
+                thickness: 0.6,
+                color: AppColors.divider.withOpacity(0.35),
+                indent: 16,
+                endIndent: 16,
+              ),
               _CardActions(isJoining: _isJoining, onJoin: _join),
             ],
           ),
@@ -126,11 +149,15 @@ class _CardHeader extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (server.description?.isNotEmpty == true) ...[
+                if (server.description.isNotEmpty == true) ...[
                   const SizedBox(height: 4),
                   Text(
-                    server.description!,
-                    style: const TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.4),
+                    server.description,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -138,11 +165,18 @@ class _CardHeader extends StatelessWidget {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_today_outlined, size: 11, color: AppColors.textMuted),
+                    const Icon(
+                      Icons.calendar_today_outlined,
+                      size: 11,
+                      color: AppColors.textMuted,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       'Created ${formatDate(server.createdAt)}',
-                      style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -177,14 +211,14 @@ class _Avatar extends StatelessWidget {
   }
 
   Widget _fallback() => Container(
-        width: 54,
-        height: 54,
-        decoration: BoxDecoration(
-          gradient: AppGradients.avatarGradient,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Icon(Icons.group_rounded, color: Colors.white54, size: 26),
-      );
+    width: 54,
+    height: 54,
+    decoration: BoxDecoration(
+      gradient: AppGradients.avatarGradient,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: const Icon(Icons.group_rounded, color: Colors.white54, size: 26),
+  );
 }
 
 class _CardActions extends StatelessWidget {
@@ -211,7 +245,9 @@ class _CardActions extends StatelessWidget {
               icon: Icons.visibility_outlined,
               onTap: () {
                 HapticFeedback.selectionClick();
-                // TODO: preview
+                // Preview opens the server screen without explicitly adding to 'joined', but they can see channels
+                // Note: go_router push takes them to details
+                // Need context to push. Let's pass it up or use GoRouter.of(context)
               },
             ),
           ),
@@ -235,25 +271,43 @@ class _JoinButton extends StatelessWidget {
         duration: const Duration(milliseconds: 180),
         height: 38,
         decoration: BoxDecoration(
-          color: isLoading ? AppColors.primary.withOpacity(0.6) : AppColors.primary,
+          color: isLoading
+              ? AppColors.primary.withOpacity(0.6)
+              : AppColors.primary,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: isLoading ? [] : [
-            BoxShadow(color: AppColors.primary.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
-          ],
+          boxShadow: isLoading
+              ? []
+              : [
+                  BoxShadow(
+                    color: AppColors.primary.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
         ),
         child: Center(
           child: isLoading
               ? const SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
                 )
               : const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.login_rounded, size: 15, color: Colors.white),
                     SizedBox(width: 6),
-                    Text('Join Server', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
+                    Text(
+                      'Join Server',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
         ),
@@ -267,7 +321,11 @@ class _OutlineButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _OutlineButton({required this.label, required this.icon, required this.onTap});
+  const _OutlineButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -278,14 +336,24 @@ class _OutlineButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.divider.withOpacity(0.6), width: 0.8),
+          border: Border.all(
+            color: AppColors.divider.withOpacity(0.6),
+            width: 0.8,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 15, color: AppColors.textSecondary),
             const SizedBox(width: 6),
-            Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ],
         ),
       ),
