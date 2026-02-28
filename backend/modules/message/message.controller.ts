@@ -29,8 +29,10 @@ export async function sendMessageController(req: Request, res: Response) {
 export async function fetchMessagesController(req: Request, res: Response) {
   try {
     const { channelId } = req.params;
+    const limit = parseInt(req.query.limit as string) || 50;
+    const before = req.query.before as string | undefined;
 
-    const messages = await fetchMessagesService(channelId.toString());
+    const messages = await fetchMessagesService(channelId.toString(), limit, before);
 
     res.json(messages);
   } catch (error) {

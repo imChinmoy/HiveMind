@@ -16,8 +16,8 @@ export async function sendMessageService(
   });
 }
 
-export async function fetchMessagesService(channelId: string) {
-  return getMessages(channelId);
+export async function fetchMessagesService(channelId: string, limit?: number, before?: string) {
+  return getMessages(channelId, limit, before);
 }
 
 export async function deleteMessageService(messageId: string) {

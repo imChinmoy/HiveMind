@@ -2,7 +2,7 @@ import { verifyToken } from "../../../modules/auth/jwt.js";
 
 export const socketHandshakeHandler = (socket: any, next: any) => {
     try {
-        const token = socket.handshak.auth.token;
+        const token = socket.handshake.auth.token;
 
         if(!token){
             return next(new Error("Authentication error: No token provided"));
